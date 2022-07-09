@@ -1,7 +1,7 @@
 DungeonSize = {
-    small       = { size = 10 },
-    medium      = { size = 20 },
-    large       = { size = 30 },
+    small       = { size = 20 },
+    medium      = { size = 30 },
+    large       = { size = 40 },
 }
 
 DungeonLayout = {

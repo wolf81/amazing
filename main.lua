@@ -5,7 +5,7 @@ local amazing = require 'amazing'
 function love.load(args)
     local dungeon = amazing.dungeon({
         seed = os.time(),
-        dungeon_size = 'small',
+        dungeon_size = 'medium',
         dungeon_layout = 'square',
         room_size = 'small',
         room_layout = 'dense',
@@ -16,4 +16,6 @@ function love.load(args)
         print('- ' .. k .. ': ' .. tostring(v))
     end
     print()
+
+    love.event.quit()
 end

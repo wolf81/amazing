@@ -63,6 +63,8 @@ local function init(params)
 end
 
 local function createRoom(dungeon, params, room)
+    room = room or {}
+
     local r_size = RoomSize[params.room_size]
     local base = r_size.base
     local radix = r_size.radix
@@ -94,8 +96,6 @@ local function createRoom(dungeon, params, room)
     if not room.j then
         room.j = random(dungeon.n_j - room.width)
     end
-
-    print(room.width, room.height)
 
     return room
 end
@@ -170,7 +170,18 @@ end
 
 local function scatterRooms(dungeon, params)
     local is_sparse = RoomLayout[params.room_layout] == RoomLayout.sparse
-    print('is_sparse', is_sparse)
+
+    local d_area = dungeon.n_rows * dungeon.n_cols
+    local r_size = RoomSize[params.room_size]
+    local r_area = math.pow((r_size.base + r_size.radix) * 2 + 1, 2)
+    local n_rooms = math.floor(d_area / r_area)
+
+    if is_sparse then n_rooms = n_rooms / 3 end
+
+        print('rooms', n_rooms)
+    for i = 1, n_rooms do
+        placeRoom(dungeon, params)
+    end
 end
 
 local function addRooms(dungeon, params)
