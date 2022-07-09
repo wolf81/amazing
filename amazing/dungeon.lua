@@ -4,6 +4,7 @@ local prng = require(PATH .. '.prng')
 require(PATH .. '.config')
 require(PATH .. '.flags')
 require(PATH .. '.util')
+require(PATH .. '.direction')
 
 local random = prng.random
 
@@ -61,6 +62,8 @@ local function init(params)
         cell = cell
     }
 end
+
+--[[ ROOM GENERATION ]]--
 
 local function createRoom(dungeon, params, room)
     room = room or {}
@@ -195,10 +198,22 @@ local function addRooms(dungeon, params)
     end
 end
 
+--[[ MAZE GENERATION ]]--
+
+local function growMaze(dungeon, params)
+    local i = random(dungeon.n_i)
+    local j = random(dungeon.n_j)
+
+    print('grow maze from: ' .. i .. ', ' .. j)
+end
+
+--[[ INIT ]]--
+
 return function(params)
     local dungeon = init(params)
 
-    addRooms(dungeon, params)
+    -- addRooms(dungeon, params)
+    growMaze(dungeon, params)
 
     print(tostring(dungeon))
 
