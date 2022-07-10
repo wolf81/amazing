@@ -20,3 +20,8 @@ RoomLayout = {
     sparse      = {},
     scattered   = {}
 }
+
+CorridorLayout = {
+    errant      = {},
+    straight    = {},
+}

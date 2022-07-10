@@ -4,10 +4,11 @@ local amazing = require 'amazing'
 
 local function generate()
     local dungeon = amazing.dungeon({
-        dungeon_size = 'medium',
-        dungeon_layout = 'square',
-        room_size = 'small',
-        room_layout = 'dense',
+        dungeon_size    = 'medium',
+        dungeon_layout  = 'square',
+        room_size       = 'small',
+        room_layout     = 'dense',
+        corridor_layout = 'straight',
     })
 
     print('dungeon:')

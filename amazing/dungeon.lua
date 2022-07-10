@@ -79,6 +79,10 @@ local function init(params)
     }
 end
 
+local function getRandomDirection()
+    return shuffle({ Direction.north, Direction.south, Direction.east, Direction.west })
+end
+
 --[[ GROW MAZE (GROWING TREE ALGORITHM) ]]--
 -- see: https://weblog.jamisbuck.org/2011/1/27/maze-generation-growing-tree-algorithm
 local function growMaze(dungeon, params)
@@ -99,15 +103,14 @@ local function growMaze(dungeon, params)
         local i, j = unpack(cells[cell_idx])
 
         -- choose a random direction
-        local dirs = { Direction.north, Direction.south, Direction.east, Direction.west }
-        for _, dir in ipairs(shuffle(dirs)) do
+        for _, dir in ipairs(getRandomDirection(last_dir)) do
             -- calculate next position based on current position and direction
             local di, dj = unpack(dir)
             local i2, j2 = i + di, j + dj
 
             -- make sure the next position is within bounds
-            if i2 < 0 or i2 >= dungeon.n_i then goto continue end
-            if j2 < 0 or j2 >= dungeon.n_j then goto continue end
+            if i2 < 0 or i2 > dungeon.n_i then goto continue end
+            if j2 < 0 or j2 > dungeon.n_j then goto continue end
 
             -- calculate next position based on current position and direction
             -- make sure we haven't visited the next position already
