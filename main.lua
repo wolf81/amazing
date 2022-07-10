@@ -2,7 +2,7 @@ io.stdout:setvbuf('no') -- show debug output live in SublimeText console
 
 local amazing = require 'amazing'
 
-function love.load(args)
+local function generate()
     local dungeon = amazing.dungeon({
         dungeon_size = 'medium',
         dungeon_layout = 'square',
@@ -15,6 +15,13 @@ function love.load(args)
         print('- ' .. k .. ': ' .. tostring(v))
     end
     print()
+end
 
-    love.event.quit()
+function love.load(args)
+    generate()
+end
+
+function love.keypressed(key, scancode)
+    if key == 'g' then generate() end    
+    if key == 'q' then love.event.quit() end
 end

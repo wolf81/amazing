@@ -54,10 +54,10 @@ local function init(params)
     local d_size = DungeonSize[params.dungeon_size]
 
     local n_i = math.floor(d_size.size * d_layout.aspect)
-    local n_rows = 2 * n_i
+    local n_rows = 2 * n_i + 1
 
     local n_j = d_size.size
-    local n_cols = 2 * n_j
+    local n_cols = 2 * n_j + 1
 
     local cell = {}
 
@@ -140,6 +140,38 @@ local function growMaze(dungeon, params)
     end
 end
 
+local function shrinkMaze(dungeon, params, sparseness)
+    local cell = dungeon.cell
+
+    local dirs = { Direction.north, Direction.south, Direction.east, Direction.west }
+
+    for i = 1, sparseness do
+        for r1 = 1, dungeon.n_rows do
+            for c1 = 1, dungeon.n_cols do
+                local n_exit = 0
+
+                for _, dir in ipairs(dirs) do
+                    local di, dj = unpack(dir)
+                    local r2, c2 = r1 + di, c1 + dj
+
+                    if r2 < 1 or r2 > dungeon.n_rows then goto continue end
+                    if c2 < 1 or c2 > dungeon.n_cols then goto continue end
+
+                    if bit.band(cell[r2][c2], Cell.CORRIDOR) == Cell.CORRIDOR then
+                        n_exit = n_exit + 1
+                    end
+
+                    ::continue::
+                end
+
+                if n_exit == 1 then
+                    cell[r1][c1] = Cell.NOTHING
+                end
+            end
+        end
+    end
+end
+
 --[[ GENERATOR ]]--
 
 return function(params)
@@ -149,6 +181,7 @@ return function(params)
     -- addCorridors(dungeon, params)
 
     growMaze(dungeon,params)
+    shrinkMaze(dungeon, params, 0)
     
     print(tostring(dungeon))
 
