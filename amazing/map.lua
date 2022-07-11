@@ -1,15 +1,15 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local Cell = require(PATH .. '.cell_type')
+local Tile = require(PATH .. '.tile')
 
 local M = {}
 
 function new(w, h, v)
     local w = w or 80
     local h = h or 50
-    local v = v or Cell.WALL
+    local v = v or Tile.WALL
 
-    local items = {}
+    local tiles = {}
 
     local getIndex = function(x, y)
         return (y - 1) * w + x
@@ -17,17 +17,17 @@ function new(w, h, v)
 
     for y = 1, h do
         for x = 1, w do
-            table.insert(items, v or Cell.WALL)
+            table.insert(tiles, v or Tile.WALL)
         end
     end
 
     local function get(x, y)        
-        return items[getIndex(x, y)]
+        return tiles[getIndex(x, y)]
     end
 
     local function set(x, y, v)
         assert(v ~= nil, 'v must be defined')
-        items[getIndex(x, y)] = v
+        tiles[getIndex(x, y)] = v
     end
 
     local function size()
@@ -35,7 +35,7 @@ function new(w, h, v)
     end
 
     local function len()
-        return #items
+        return #tiles
     end
 
     local function iter()
@@ -52,7 +52,7 @@ function new(w, h, v)
 
                 if y > h then break end
 
-                return x, y, items[getIndex(x, y)]
+                return x, y, tiles[getIndex(x, y)]
             end
 
             return nil

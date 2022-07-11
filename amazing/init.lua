@@ -9,6 +9,6 @@ local M = {
 }
 
 M.builder = require(PATH .. '.builder')
-M.CellType = require(PATH .. '.cell_type')
+M.Tile = require(PATH .. '.tile')
 
 return M

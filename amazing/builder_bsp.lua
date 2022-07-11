@@ -4,6 +4,8 @@ require(PATH .. '.util')
 
 local random = love.math.random
 local Map = require(PATH .. '.map')
+local Rect = require(PATH .. '.rect')
+local Tile = require(PATH .. '.tile')
 
 local M = {}
 

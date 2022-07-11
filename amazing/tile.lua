@@ -1,4 +1,4 @@
-local CellType = {
+local Tile = {
     NOTHING     = 0x0,
     BLOCKED     = 0x1,
     ROOM        = 0x2,
@@ -8,4 +8,4 @@ local CellType = {
     STAIR_UP    = 0x20,
 }
 
-return CellType
+return Tile

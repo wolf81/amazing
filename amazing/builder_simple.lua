@@ -5,26 +5,26 @@ require(PATH .. '.util')
 local random = love.math.random
 local Map = require(PATH .. '.map')
 local Rect = require(PATH .. '.rect')
-local Cell = require(PATH .. '.cell_type')
+local Tile = require(PATH .. '.tile')
 
 local M = {}
 
 local function applyHorizontalTunnel(map, x1, x2, y)
     for x = x1, x2, x1 < x2 and 1 or -1 do
-        map.set(x, y, Cell.ROOM)
+        map.set(x, y, Tile.ROOM)
     end
 end
 
 local function applyVerticalTunnel(map, y1, y2, x)
     for y = y1, y2, y1 < y2 and 1 or -1 do
-        map.set(x, y, Cell.ROOM)
+        map.set(x, y, Tile.ROOM)
     end
 end
 
 local function applyRoom(map, room)
     for y = room.y1 + 1, room.y2 do
         for x = room.x1 + 1, room.x2 do
-            map.set(x, y, Cell.ROOM)
+            map.set(x, y, Tile.ROOM)
         end
     end
 end
@@ -42,13 +42,13 @@ local function new()
         local map_w, map_h = map.size()
 
         for x = 1, map_w do
-            map.set(x, 1, Cell.WALL)
-            map.set(x, map_h, Cell.WALL)
+            map.set(x, 1, Tile.WALL)
+            map.set(x, map_h, Tile.WALL)
         end
 
         for y = 1, map_h do
-            map.set(1, y, Cell.WALL)
-            map.set(map_w, y, Cell.WALL)
+            map.set(1, y, Tile.WALL)
+            map.set(map_w, y, Tile.WALL)
         end
 
         local rooms = {}
@@ -85,7 +85,7 @@ local function new()
         end
 
         local stair_x, stair_y = rooms[#rooms].center()
-        map.set(stair_x, stair_y, Cell.STAIR_DN)
+        map.set(stair_x, stair_y, Tile.STAIR_DN)
 
         return map
     end

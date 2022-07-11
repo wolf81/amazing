@@ -1,7 +1,7 @@
 io.stdout:setvbuf('no') -- show debug output live in SublimeText console
 
 local amazing = require 'amazing'
-local Cell = amazing.CellType
+local Tile = amazing.Tile
 
 local canvas = nil
 
@@ -24,10 +24,10 @@ local function generate()
         local s = ' '
         local c = { 1.0, 1.0, 1.0 }
 
-        if bit.band(v, Cell.WALL) ~= 0 then
+        if bit.band(v, Tile.WALL) ~= 0 then
             s = '#'
             c = { 0.0, 0.6, 0.0 }
-        elseif bit.band(v, Cell.STAIR_DN) ~= 0 then
+        elseif bit.band(v, Tile.STAIR_DN) ~= 0 then
             s = '>'
         end
 
