@@ -71,43 +71,61 @@ local function init(params)
     print('seed', seed)
     love.math.setRandomSeed(seed)
 
-    local map = Map(80, 50, Cell.WALL)
-    local w, h = map.size()
-    print('len', map.len())
-
-    for x = 1, w do
-        map.set(x, 1, Cell.WALL)
-        map.set(x, h, Cell.WALL)
-    end
-
-    for y = 1, h do
-        map.set(1, y, Cell.WALL)
-        map.set(w, y, Cell.WALL)
-    end
-
-    applyHorizontalTunnel(map, 25, 40, 23)
-
-    -- for i = 1, 400 do
-    --     local x = random(w)
-    --     local y = random(h)
-    --     map.set(x, y, Cell.WALL)
-    -- end
-
-    return map
+    return Map(80, 50, Cell.WALL)
 end
 
 --[[ GENERATOR ]]--
 
+local MAX_ROOMS = 30
+local MIN_SIZE = 6
+local MAX_SIZE = 10
+
 return function(params)
     local map = init(params)
 
-    local rooms = {
-        Rect(20, 15, 10, 15),
-        Rect(35, 15, 10, 15),
-    }
+    local map_w, map_h = map.size()
 
-    for _, room in ipairs(rooms) do
+    for x = 1, map_w do
+        map.set(x, 1, Cell.WALL)
+        map.set(x, map_h, Cell.WALL)
+    end
+
+    for y = 1, map_h do
+        map.set(1, y, Cell.WALL)
+        map.set(map_w, y, Cell.WALL)
+    end
+
+    local rooms = {}
+
+    for i = 0, MAX_ROOMS do
+        local w = random(MIN_SIZE, MAX_SIZE)
+        local h = random(MIN_SIZE, MAX_SIZE)
+        local x = random(1, map_w - w)
+        local y = random(1, map_h - h)
+
+        local room = Rect(x, y, w, h)
+        for _, other_room in ipairs(rooms) do
+            if room.intersect(other_room) then goto continue end
+        end
+
         applyRoom(map, room)
+
+        if #rooms > 1 then
+            local next_x, next_y = room.center()
+            local prev_x, prev_y = rooms[#rooms - 1].center()
+
+            if oneIn(2) then
+                applyHorizontalTunnel(map, prev_x, next_x, prev_y)
+                applyVerticalTunnel(map, prev_y, next_y, next_x)
+            else
+                applyVerticalTunnel(map, prev_y, next_y, prev_x)
+                applyHorizontalTunnel(map, prev_x, next_x, next_y)
+            end
+        end
+
+        table.insert(rooms, room)
+
+        ::continue::
     end
 
     -- addRooms(dungeon, params)
