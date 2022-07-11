@@ -1,6 +1,7 @@
 io.stdout:setvbuf('no') -- show debug output live in SublimeText console
 
 local amazing = require 'amazing'
+local Cell = amazing.CellType
 
 local canvas = nil
 
@@ -25,11 +26,18 @@ local function generate()
     canvas = love.graphics.newCanvas()
     love.graphics.setCanvas(canvas)
     for x, y, v in map.iter() do
-        local is_wall = v == 16
-        local s = is_wall and '#' or '.'
-        local c = is_wall and { 0.0, 0.6, 0.0 } or { 1.0, 1.0, 1.0 }   
+        local s = ' '
+        local c = { 1.0, 1.0, 1.0 }
+
+        if bit.band(v, Cell.WALL) == Cell.WALL then
+            s = '#'
+            c = { 0.0, 0.6, 0.0 }
+        elseif bit.band(v, Cell.STAIR_DN) == Cell.STAIR_DN then
+            s = '>'
+        end
+
         love.graphics.setColor(c)
-        love.graphics.print(tostring(s), x * 10, y * 10)
+        love.graphics.print(s, x * 10, y * 10)
     end
     love.graphics.setCanvas()
 end

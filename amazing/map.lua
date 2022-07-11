@@ -18,6 +18,7 @@ function new(w, h, v)
     end
 
     local function set(x, y, v)
+        assert(v ~= nil, 'v must be defined')
         items[getIndex(x, y)] = v
     end
 

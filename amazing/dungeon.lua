@@ -1,12 +1,12 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
 require(PATH .. '.config')
-require(PATH .. '.flags')
 require(PATH .. '.util')
 
 local random = love.math.random
 local Map = require(PATH .. '.map')
 local Rect = require(PATH .. '.rect')
+local Cell = require(PATH .. '.cell_type')
 
 local function tostring(map)
     local s = ''
@@ -20,6 +20,8 @@ local function tostring(map)
 
             if bit.band(v, Cell.WALL) == Cell.WALL then
                 s = s .. '#'
+            elseif bit.band(v, Cell.STAIR_DN) == Cell.STAIR_DN then
+                s = s .. '>'
             else
                 s = s .. ' '
             end
@@ -48,20 +50,20 @@ end
 
 local function applyHorizontalTunnel(map, x1, x2, y)
     for x = x1, x2, x1 < x2 and 1 or -1 do
-        map.set(x, y, Cell.FLOOR)
+        map.set(x, y, Cell.ROOM)
     end
 end
 
 local function applyVerticalTunnel(map, y1, y2, x)
     for y = y1, y2, y1 < y2 and 1 or -1 do
-        map.set(x, y, Cell.FLOOR)
+        map.set(x, y, Cell.ROOM)
     end
 end
 
 local function applyRoom(map, room)
     for y = room.y1 + 1, room.y2 do
         for x = room.x1 + 1, room.x2 do
-            map.set(x, y, Cell.FLOOR)
+            map.set(x, y, Cell.ROOM)
         end
     end
 end
@@ -128,10 +130,12 @@ return function(params)
         ::continue::
     end
 
-    -- addRooms(dungeon, params)
-    -- addCorridors(dungeon, params)
-    
-    -- print(tostring(dungeon.map))
+    local stair_x, stair_y = rooms[#rooms].center()
+    map.set(stair_x, stair_y, Cell.STAIR_DN)
+
+    -- let stairs_position = map.rooms[map.rooms.len()-1].center();
+    --     let stairs_idx = map.xy_idx(stairs_position.0, stairs_position.1);
+    --     map.tiles[stairs_idx] = TileType::DownStairs;
 
     return map
 end
