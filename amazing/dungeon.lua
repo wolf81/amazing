@@ -6,6 +6,7 @@ require(PATH .. '.util')
 
 local random = love.math.random
 local Map = require(PATH .. '.map')
+local Rect = require(PATH .. '.rect')
 
 local function tostring(map)
     local s = ''
@@ -83,6 +84,14 @@ return function(params)
     for k,v in pairs(dungeon) do
         print(k, v)
     end
+
+    local r1 = Rect(1, 2, 5, 10)
+    local r2 = Rect(7, 7, 5, 10)
+    local cx, cy = r1.center()
+
+
+    print(r1.intersect(r2))
+
     -- addRooms(dungeon, params)
     -- addCorridors(dungeon, params)
     

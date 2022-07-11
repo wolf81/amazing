@@ -14,3 +14,17 @@ function shuffle(list)
 
     return list
 end
+
+function round(x)
+    return x < 0 and math.ceil(x - 0.5) or math.floor(x + 0.5)
+end
+
+function readOnly(table)
+   return setmetatable({}, {
+     __index = table,
+     __newindex = function(table, key, value)
+                    error("Attempt to modify read-only table")
+                  end,
+     __metatable = false
+   });
+end
