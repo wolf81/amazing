@@ -46,6 +46,18 @@ local function computeSeed(seed)
     return seed
 end
 
+local function applyHorizontalTunnel(map, x1, x2, y)
+    for x = x1, x2, x1 < x2 and 1 or -1 do
+        map.set(x, y, Cell.FLOOR)
+    end
+end
+
+local function applyVerticalTunnel(map, y1, y2, x)
+    for y = y1, y2, y1 < y2 and 1 or -1 do
+        map.set(x, y, Cell.FLOOR)
+    end
+end
+
 local function applyRoom(map, room)
     for y = room.y1 + 1, room.y2 do
         for x = room.x1 + 1, room.x2 do
@@ -72,6 +84,8 @@ local function init(params)
         map.set(1, y, Cell.WALL)
         map.set(w, y, Cell.WALL)
     end
+
+    applyHorizontalTunnel(map, 25, 40, 23)
 
     -- for i = 1, 400 do
     --     local x = random(w)
