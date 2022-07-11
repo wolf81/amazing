@@ -5,7 +5,7 @@ local amazing = require 'amazing'
 local canvas = nil
 
 local function generate()
-    dungeon = amazing.dungeon({
+    map = amazing.dungeon({
         dungeon_size    = 'medium',
         dungeon_layout  = 'square',
         room_size       = 'small',
@@ -13,23 +13,23 @@ local function generate()
         corridor_layout = 'straight',
     })
 
-    love.graphics.setFont(love.graphics.newFont(10))
+    love.graphics.setFont(love.graphics.newFont(12))
     love.window.setMode(1280, 800, { ['highdpi'] = false })
 
     print('dungeon:')
-    for k, v in pairs(dungeon) do
+    for k, v in pairs(map) do
         print('- ' .. k .. ': ' .. tostring(v))
     end
     print()
 
     canvas = love.graphics.newCanvas()
     love.graphics.setCanvas(canvas)
-    for x, y, v in dungeon.map.iter() do
+    for x, y, v in map.iter() do
         local is_wall = v == 16
         local s = is_wall and '#' or '.'
-        local c = is_wall and { 0.0, 1.0, 0.0 } or { 1.0, 1.0, 1.0 }   
+        local c = is_wall and { 0.0, 0.6, 0.0 } or { 1.0, 1.0, 1.0 }   
         love.graphics.setColor(c)
-        love.graphics.print(tostring(s), x * 12, y * 12)
+        love.graphics.print(tostring(s), x * 10, y * 10)
     end
     love.graphics.setCanvas()
 end

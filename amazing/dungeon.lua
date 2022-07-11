@@ -46,12 +46,20 @@ local function computeSeed(seed)
     return seed
 end
 
+local function applyRoom(map, room)
+    for y = room.y1 + 1, room.y2 do
+        for x = room.x1 + 1, room.x2 do
+            map.set(x, y, Cell.FLOOR)
+        end
+    end
+end
+
 local function init(params)
     local seed = computeSeed(params.seed)
     print('seed', seed)
     love.math.setRandomSeed(seed)
 
-    local map = Map(80, 50, Cell.NOTHING)
+    local map = Map(80, 50, Cell.WALL)
     local w, h = map.size()
     print('len', map.len())
 
@@ -65,37 +73,33 @@ local function init(params)
         map.set(w, y, Cell.WALL)
     end
 
-    for i = 1, 400 do
-        local x = random(w)
-        local y = random(h)
-        map.set(x, y, Cell.WALL)
-    end
+    -- for i = 1, 400 do
+    --     local x = random(w)
+    --     local y = random(h)
+    --     map.set(x, y, Cell.WALL)
+    -- end
 
-    return {
-        map = map,
-    }
+    return map
 end
 
 --[[ GENERATOR ]]--
 
 return function(params)
-    local dungeon = init(params)
+    local map = init(params)
 
-    for k,v in pairs(dungeon) do
-        print(k, v)
+    local rooms = {
+        Rect(20, 15, 10, 15),
+        Rect(35, 15, 10, 15),
+    }
+
+    for _, room in ipairs(rooms) do
+        applyRoom(map, room)
     end
-
-    local r1 = Rect(1, 2, 5, 10)
-    local r2 = Rect(7, 7, 5, 10)
-    local cx, cy = r1.center()
-
-
-    print(r1.intersect(r2))
 
     -- addRooms(dungeon, params)
     -- addCorridors(dungeon, params)
     
     -- print(tostring(dungeon.map))
 
-    return dungeon
+    return map
 end
