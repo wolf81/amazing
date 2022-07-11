@@ -1,6 +1,5 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.config')
 require(PATH .. '.util')
 
 local random = love.math.random

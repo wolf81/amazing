@@ -6,7 +6,8 @@ local Cell = amazing.CellType
 local canvas = nil
 
 local function generate()
-    map = amazing.dungeon({
+    local builder = amazing.builder.random()
+    map = builder.build({
         dungeon_size    = 'medium',
         dungeon_layout  = 'square',
         room_size       = 'small',
@@ -16,12 +17,6 @@ local function generate()
 
     love.graphics.setFont(love.graphics.newFont(14))
     love.window.setMode(1280, 800, { ['highdpi'] = false })
-
-    print('dungeon:')
-    for k, v in pairs(map) do
-        print('- ' .. k .. ': ' .. tostring(v))
-    end
-    print()
 
     canvas = love.graphics.newCanvas()
     love.graphics.setCanvas(canvas)

@@ -1,6 +1,14 @@
-local Map = {}
+local PATH = (...):match("(.-)[^%.]+$") 
+
+local Cell = require(PATH .. '.cell_type')
+
+local M = {}
 
 function new(w, h, v)
+    local w = w or 80
+    local h = h or 50
+    local v = v or Cell.WALL
+
     local items = {}
 
     local getIndex = function(x, y)
@@ -9,7 +17,7 @@ function new(w, h, v)
 
     for y = 1, h do
         for x = 1, w do
-            table.insert(items, v or 0)
+            table.insert(items, v or Cell.WALL)
         end
     end
 
@@ -57,9 +65,9 @@ function new(w, h, v)
         len = len,
         size = size,
         iter = iter,
-    }, Map)
+    }, M)
 end
 
-return setmetatable(Map, {
+return setmetatable(M, {
     __call = function(_, w, h, v) return new(w, h, v) end,
 })

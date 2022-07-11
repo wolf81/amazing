@@ -8,7 +8,7 @@ local M = {
     ]], 
 }
 
-M.dungeon = require(PATH .. '.dungeon')
+M.builder = require(PATH .. '.builder')
 M.CellType = require(PATH .. '.cell_type')
 
 return M
