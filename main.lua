@@ -2,8 +2,10 @@ io.stdout:setvbuf('no') -- show debug output live in SublimeText console
 
 local amazing = require 'amazing'
 
+local canvas = nil
+
 local function generate()
-    local dungeon = amazing.dungeon({
+    dungeon = amazing.dungeon({
         dungeon_size    = 'medium',
         dungeon_layout  = 'square',
         room_size       = 'small',
@@ -11,15 +13,34 @@ local function generate()
         corridor_layout = 'straight',
     })
 
+    love.graphics.setFont(love.graphics.newFont(10))
+    love.window.setMode(1280, 800, { ['highdpi'] = false })
+
     print('dungeon:')
     for k, v in pairs(dungeon) do
         print('- ' .. k .. ': ' .. tostring(v))
     end
     print()
+
+    canvas = love.graphics.newCanvas()
+    love.graphics.setCanvas(canvas)
+    for x, y, v in dungeon.map.iter() do
+        local is_wall = v == 16
+        local s = is_wall and '#' or '.'
+        local c = is_wall and { 0.0, 1.0, 0.0 } or { 1.0, 1.0, 1.0 }   
+        love.graphics.setColor(c)
+        love.graphics.print(tostring(s), x * 12, y * 12)
+    end
+    love.graphics.setCanvas()
 end
 
 function love.load(args)
     generate()
+end
+
+function love.draw()
+    love.graphics.setColor(1.0, 1.0, 1.0)
+    love.graphics.draw(canvas)
 end
 
 function love.keypressed(key, scancode)
