@@ -14,7 +14,7 @@ local function generate()
         corridor_layout = 'straight',
     })
 
-    love.graphics.setFont(love.graphics.newFont(12))
+    love.graphics.setFont(love.graphics.newFont(14))
     love.window.setMode(1280, 800, { ['highdpi'] = false })
 
     print('dungeon:')
@@ -29,15 +29,15 @@ local function generate()
         local s = ' '
         local c = { 1.0, 1.0, 1.0 }
 
-        if bit.band(v, Cell.WALL) == Cell.WALL then
+        if bit.band(v, Cell.WALL) ~= 0 then
             s = '#'
             c = { 0.0, 0.6, 0.0 }
-        elseif bit.band(v, Cell.STAIR_DN) == Cell.STAIR_DN then
+        elseif bit.band(v, Cell.STAIR_DN) ~= 0 then
             s = '>'
         end
 
         love.graphics.setColor(c)
-        love.graphics.print(s, x * 10, y * 10)
+        love.graphics.print(s, x * 12, y * 12)
     end
     love.graphics.setCanvas()
 end
