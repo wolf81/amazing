@@ -1,19 +1,25 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local Simple = require(PATH .. '.builder_simple')
-local BSP = require(PATH .. '.builder_bsp')
-
-local function init(params)
-    return Map(80, 50, Cell.WALL)
-end
+local SimpleBuilder = require(PATH .. '.builder_simple')
+local BSPBuilder = require(PATH .. '.builder_bsp')
 
 local function random()
     local i = love.math.random(2)
-    if i == 1 then return Simple()
-    else return BSP()
+    if i == 1 then return SimpleBuilder
+    else return BSPBuilder
     end
+end
+
+local function bsp()
+    return BSPBuilder
+end
+
+local function simple()
+    return SimpleBuilder
 end
 
 return {
     random = random,
+    simple = simple,
+    bsp = bsp,
 }
