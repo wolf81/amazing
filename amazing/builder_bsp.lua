@@ -29,17 +29,16 @@ local function getRandomSubrect(rect)
 end
 
 local function isPossible(rect, map)
-    local x1, x2 = rect.x1 - 1, rect.x2 + 1
-    local y1, y2 = rect.y1 - 1, rect.y2 + 1
+    local ext_rect = rect.copy().inset(-1, -1, 1, 1)
     local map_w, map_h = map.size()
 
-    if x1 < 1 then return false end
-    if x2 > map_w then return false end
-    if y1 < 1 then return false end
-    if y2 > map_h then return false end
+    if ext_rect.x1 < 1 then return false end
+    if ext_rect.x2 > map_w then return false end
+    if ext_rect.y1 < 1 then return false end
+    if ext_rect.y2 > map_h then return false end
 
-    for y = y1, y2 do        
-        for x = x1, x2 do
+    for y = ext_rect.y1, ext_rect.y2 do        
+        for x = ext_rect.x1, ext_rect.x2 do
             if bit.band(map.get(x, y), Tile.WALL) ~= Tile.WALL then
                 return false
             end

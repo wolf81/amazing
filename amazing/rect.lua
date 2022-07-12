@@ -36,6 +36,8 @@ local function new(x, y, w, h)
 
         mid_x = round((self.x1 + self.x2) / 2)
         mid_y = round((self.y1 + self.y2) / 2)
+
+        return self
     end
 
     return readOnly(self)

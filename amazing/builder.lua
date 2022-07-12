@@ -12,10 +12,6 @@ local function bsp()
     return BSPBuilder
 end
 
-local function getSnapshots()
-    -- body
-end
-
 local function simple()
     return SimpleBuilder
 end
