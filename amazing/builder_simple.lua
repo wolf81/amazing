@@ -18,6 +18,8 @@ local MIN_SIZE = 6
 local MAX_SIZE = 10
 
 function SimpleBuilder:build(params)
+    print('build simple')
+
     local map = Map()
 
     local map_w, map_h = map.size()
@@ -37,8 +39,8 @@ function SimpleBuilder:build(params)
     for i = 0, MAX_ROOMS do
         local w = random(MIN_SIZE, MAX_SIZE)
         local h = random(MIN_SIZE, MAX_SIZE)
-        local x = random(2, map_w - w) - 1
-        local y = random(2, map_h - h) - 1
+        local x = random(3, map_w - w) - 1
+        local y = random(3, map_h - h) - 1
 
         local room = Rect(x, y, w, h)
         for _, other_room in ipairs(rooms) do

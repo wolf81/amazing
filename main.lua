@@ -11,6 +11,7 @@ local step_delay = 0
 
 local function generate()
     local builder = amazing.builder.random()
+
     map, player = builder.build({
         dungeon_size    = 'medium',
         dungeon_layout  = 'square',
@@ -44,8 +45,6 @@ local function generate()
     love.graphics.setCanvas()
 
     keys_pressed = {}
-
-    print('\n\n\n')
 end
 
 function love.load(args)

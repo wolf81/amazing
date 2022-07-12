@@ -4,7 +4,7 @@ local SimpleBuilder = require(PATH .. '.builder_simple')
 local BSPBuilder = require(PATH .. '.builder_bsp')
 
 local function random()
-    local builders = { BSPBuilder }
+    local builders = { SimpleBuilder, BSPBuilder }
     return builders[love.math.random(#builders)]
 end
 

@@ -90,6 +90,8 @@ local function addCorridor(map, x1, y1, x2, y2)
 end
 
 function BSPBuilder:build(params)
+    print('build bsp')
+
     local map = Map()
 
     local rooms = {}
