@@ -17,8 +17,8 @@ local function getRandomSubrect(rect)
     local rect_w = math.abs(rect.x1 - rect.x2)
     local rect_h = math.abs(rect.y1 - rect.y2)
 
-    local w = math.max(2, random(1, math.min(10, rect_w)) - 1) + 1
-    local h = math.max(2, random(1, math.min(10, rect_h)) - 1) + 1
+    local w = math.max(3, random(1, math.min(10, rect_w)))
+    local h = math.max(3, random(1, math.min(10, rect_h)))
 
     return Rect(
         rect.x1 + random(1, 6) - 1,
@@ -29,27 +29,24 @@ local function getRandomSubrect(rect)
 end
 
 local function isPossible(rect, map)
-    local x1, x2 = rect.x1 - 1, rect.x2 + 2
-    local y1, y2 = rect.y1 - 1, rect.y2 + 2
-
+    local x1, x2 = rect.x1 - 1, rect.x2 + 1
+    local y1, y2 = rect.y1 - 1, rect.y2 + 1
     local map_w, map_h = map.size()
 
-    local can_build = true
+    if x1 < 1 then return false end
+    if x2 > map_w then return false end
+    if y1 < 1 then return false end
+    if y2 > map_h then return false end
 
     for y = y1, y2 do        
         for x = x1, x2 do
-            if x > map_w then can_build = false; break end
-            if x < 1 then can_build = false; break end
-            if y > map_h then can_build = false; break end
-            if y < 1 then can_build = false; break; end
-
             if bit.band(map.get(x, y), Tile.WALL) ~= Tile.WALL then
-                can_build = false
+                return false
             end
         end
     end
 
-    return can_build
+    return true
 end
 
 local function addSubrects(rects, rect)
@@ -65,7 +62,31 @@ local function addSubrects(rects, rect)
 end
 
 local function getRandomRect(rects)
-   return rects[random(#rects)]
+   return rects[random(#rects)].copy()
+end
+
+local function getRandomPosition(rect)
+    local x = rect.x1 + random(0, math.abs(rect.x1 - rect.x2))
+    local y = rect.y1 + random(0, math.abs(rect.y1 - rect.y2))
+    return x, y
+end
+
+local function addCorridor(map, x1, y1, x2, y2)
+    local x, y = x1, y1
+
+    while (x ~= x2 or y ~= y2) do
+        if x < x2 then
+            x = x + 1
+        elseif x > x2 then
+            x = x - 1
+        elseif y < y2 then
+            y = y + 1
+        elseif y > y2 then
+            y = y - 1
+        end
+
+        map.set(x, y, Tile.FLOOR)
+    end
 end
 
 function BSPBuilder:build(params)
@@ -76,10 +97,9 @@ function BSPBuilder:build(params)
     local map_w, map_h = map.size()
 
     local rects = {}
-    rects[#rects + 1] = Rect(1, 1, map_w - 2, map_h - 2)
-
-    local first_room = rects[1]
-    addSubrects(rects, first_room)
+    local rect = Rect(1, 1, map_w - 2, map_h - 2)
+    rects[#rects + 1] = rect
+    addSubrects(rects, rects[1])
 
     for _ = 1, N_TRIES do
         local rect = getRandomRect(rects)
@@ -87,10 +107,26 @@ function BSPBuilder:build(params)
 
         if isPossible(candidate, map) then
             applyRoom(map, candidate)
-            rooms[#rooms + 1] = rect
-            addSubrects(rects, rect)
+            rooms[#rooms + 1] = candidate
+            addSubrects(rects, rect.copy())
         end
     end
+
+    for i = 1, #rooms - 1 do
+        local room = rooms[i]
+        local next_room = rooms[i + 1]
+
+        local start_x, start_y = getRandomPosition(room)
+        local end_x, end_y = getRandomPosition(next_room)
+
+        addCorridor(map, start_x, start_y, end_x, end_y)
+    end
+
+    local stair_x, stair_y = rooms[#rooms].center()
+    map.set(stair_x, stair_y, Tile.STAIR_DN)
+
+    stair_x, stair_y = rooms[1].center()
+    map.set(stair_x, stair_y, Tile.STAIR_UP)
 
     return map
 end

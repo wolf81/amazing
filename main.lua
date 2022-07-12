@@ -44,6 +44,8 @@ local function generate()
     love.graphics.setCanvas()
 
     keys_pressed = {}
+
+    print('\n\n\n')
 end
 
 function love.load(args)

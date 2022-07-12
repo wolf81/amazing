@@ -7,18 +7,23 @@ local M = {}
 function new(w, h, v)
     local w = w or 80
     local h = h or 50
-    local v = v or Tile.WALL
 
     local tiles = {}
 
-    local getIndex = function(x, y)
-        return (y - 1) * w + x
+    if v == nil or type(v) == 'number' then
+        for y = 1, h do
+            for x = 1, w do
+                table.insert(tiles, v or Tile.WALL)
+            end
+        end
+    elseif type(v) == 'table' then
+        local n_items = h * w
+        assert(#v == h * w, 'v should contain ' .. n_items ' tiles')
+        tiles = v
     end
 
-    for y = 1, h do
-        for x = 1, w do
-            table.insert(tiles, v or Tile.WALL)
-        end
+    local getIndex = function(x, y)
+        return (y - 1) * w + x
     end
 
     local function get(x, y)        
@@ -57,6 +62,10 @@ function new(w, h, v)
 
             return nil
         end
+    end
+
+    local function copy()
+        return Map(w, h, tiles)
     end
 
     return setmetatable({
