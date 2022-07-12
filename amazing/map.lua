@@ -18,7 +18,7 @@ function new(w, h, v)
         end
     elseif type(v) == 'table' then
         local n_items = h * w
-        assert(#v == h * w, 'v should contain ' .. n_items ' tiles')
+        assert(#v == h * w, 'v should contain ' .. n_items .. ' tiles')
         tiles = v
     end
 
@@ -65,7 +65,7 @@ function new(w, h, v)
     end
 
     local function copy()
-        return Map(w, h, tiles)
+        return new(w, h, { unpack(tiles) })
     end
 
     return setmetatable({
@@ -74,6 +74,7 @@ function new(w, h, v)
         len = len,
         size = size,
         iter = iter,
+        copy = copy,
     }, M)
 end
 
