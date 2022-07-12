@@ -26,6 +26,18 @@ local function new(x, y, w, h)
     
     self.center = function() return mid_x, mid_y end    
 
+    self.copy = function() return Rect(x, y, w, h) end
+
+    self.inset = function(x1, y1, x2, y2)
+        self.x1 = self.x1 + x1
+        self.y1 = self.y1 + y1
+        self.x2 = self.x2 + x2
+        self.y2 = self.y2 + y2
+
+        mid_x = round((self.x1 + self.x2) / 2)
+        mid_y = round((self.y1 + self.y2) / 2)
+    end
+
     return readOnly(self)
 end
 

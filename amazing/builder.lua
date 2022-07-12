@@ -4,7 +4,7 @@ local SimpleBuilder = require(PATH .. '.builder_simple')
 local BSPBuilder = require(PATH .. '.builder_bsp')
 
 local function random()
-    local i = love.math.random(2)
+    local i = 2 -- love.math.random(2)
     if i == 1 then return SimpleBuilder
     else return BSPBuilder
     end
