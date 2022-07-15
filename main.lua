@@ -154,9 +154,13 @@ function dijkstra()
     print(player.x, player.y, '->', px, py)
 
     for x, y, _ in map.iter() do
-        local dist = (x == player.x and y == player.y) and 0 or math.huge
-        d_map.set(x, y, dist)
-        unvisited:enqueue(getKey(x, y), dist)
+        if bit.band(map.get(x, y), Tile.WALL) ~= Tile.WALL then
+            local dist = (x == player.x and y == player.y) and 0 or math.huge
+            d_map.set(x, y, dist)
+            unvisited:enqueue(getKey(x, y), dist)
+        else
+            d_map.set(x, y, -1)
+        end
     end
 
     while not unvisited:empty() do
@@ -168,6 +172,8 @@ function dijkstra()
             local n_x, n_y = unpack(neighbor)
             local n_key = getKey(n_x, n_y)
             if not unvisited:contains(n_key) then goto continue end
+
+            local n_v = d_map.get(n_x, n_y) 
 
             local n_dist = math.min(d_map.get(n_x, n_y), dist + 1)
             unvisited:update(getKey(n_x, n_y), n_dist)
@@ -206,8 +212,12 @@ function dijkstra()
     for y = 1, map_h do
         for x = 1, map_w do
             local v = d_map.get(x,y)
-            v = v < 16 and string.format('%X', v) or 'F'
-            s = s .. (v == math.huge and '·' or v)
+            if v == -1 then 
+                s = s .. ' ' 
+            else 
+                v = v < 16 and string.format('%X', v) or 'F'
+                s = s .. (v == math.huge and '·' or v)
+            end
         end
         s = s .. '\n'
     end
