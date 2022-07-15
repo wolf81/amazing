@@ -10,5 +10,6 @@ local M = {
 
 M.builder = require(PATH .. '.builder')
 M.Tile = require(PATH .. '.tile')
+M.Map = require(PATH .. '.map')
 
 return M
