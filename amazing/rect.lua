@@ -41,7 +41,7 @@ local function new(x, y, w, h)
     end
 
     self.iter = function()
-        local x, y = self.x1, self.y1
+        local x, y = self.x1 - 1, self.y1
 
         return function()
             while true do

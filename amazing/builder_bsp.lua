@@ -35,7 +35,7 @@ end
 
 -- make sure a rectangle is not overlapping another room
 -- we check this by making sure each tile is a wall tile
-local function isPossible(rect, map)
+local function isPossible(rect, map, rooms)
     local ext_rect = rect.copy().inset(-1, -1, 1, 1)
     local map_w, map_h = map.size()
 
@@ -44,10 +44,8 @@ local function isPossible(rect, map)
     if ext_rect.y1 < 1 then return false end
     if ext_rect.y2 > map_h then return false end
 
-    for x, y in ext_rect.iter() do
-        if bit.band(map.get(x, y), Tile.WALL) ~= Tile.WALL then
-            return false
-        end
+    for _, room in ipairs(rooms) do
+        if room.intersect(ext_rect) then return false end
     end
 
     return true
@@ -97,7 +95,7 @@ local function addCorridor(map, x1, y1, x2, y2)
     end
 end
 
-function BSPBuilder:build(params)
+function BSPBuilder:build(state)
     print('bsp')
 
     local map = Map()
@@ -115,8 +113,7 @@ function BSPBuilder:build(params)
         local candidate = getRandomSubrect(rect)
 
         -- if candidate room doesn't overlap other room, add to map
-        if isPossible(candidate, map) then
-            applyRoom(map, candidate)
+        if isPossible(candidate, map, rooms) then
             rooms[#rooms + 1] = candidate
             addSubrects(rects, rect)
         end
@@ -133,15 +130,8 @@ function BSPBuilder:build(params)
         addCorridor(map, start_x, start_y, end_x, end_y)
     end
 
-    -- add stairs up
-    local stair_x, stair_y = rooms[1].center()
-    map.set(stair_x, stair_y, Tile.STAIR_UP)
-
-    -- add stairs down
-    stair_x, stair_y = rooms[#rooms].center()
-    map.set(stair_x, stair_y, Tile.STAIR_DN)
-
-    return map
+    state.map = map
+    state.rooms = rooms
 end
 
 return BSPBuilder

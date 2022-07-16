@@ -14,9 +14,9 @@ local Dijkstra = require(PATH .. '.dijkstra')
 local CABuilder = {}
 CABuilder.__index = BuilderBase
 
-function CABuilder:build(params)
+function CABuilder:build(state)
     print('ca')
-    
+
     local map = Map()
 
     local map_w, map_h = map.size()
@@ -73,31 +73,8 @@ function CABuilder:build(params)
         end
     end
 
-    local d_map = Dijkstra.map(map, start.x, start.y, function(x, y)
-        return bit.band(map.get(x, y), Tile.WALL) == Tile.WALL
-    end)
-
-    -- add stairs up
-    map.set(start.x, start.y, Tile.STAIR_UP)
-
-    -- find tile furthest away from start position to place stairs down
-    local stairs = { x = 0, y = 0, dist = 0 }
-    for x, y, dist in d_map.iter() do
-        if dist == math.huge then
-            map.set(x, y, Tile.WALL)
-        else
-            if dist > stairs.dist then
-                stairs = { x = x, y = y, dist = dist }
-            end
-        end
-    end
-
-    assert(stairs.dist > 0, 'could not place stairs down')
-
-    -- add stairs down
-    map.set(stairs.x, stairs.y, Tile.STAIR_DN)
-
-    return map
+    state.start = start
+    state.map = map
 end
 
 return CABuilder

@@ -45,9 +45,12 @@ local function generate()
     love.graphics.setCanvas()
 
     keys_pressed = {}
+
+    print()
 end
 
 function love.load(args)
+    love.math.setRandomSeed(1)
     generate()
 end
 
@@ -92,6 +95,8 @@ function love.update(dt)
             tryMove(player.x + dx, player.y + dy)
         end
     end
+
+    if not player then return end
 
     local tile = map.get(player.x, player.y)
     if bit.band(tile, Tile.STAIR_DN) == Tile.STAIR_DN then

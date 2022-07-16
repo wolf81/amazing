@@ -17,9 +17,9 @@ local MAX_ROOMS = 30
 local ROOM_SIZE_MIN = 4
 local ROOM_SIZE_MAX = 9
 
-function SimpleBuilder:build(params)
+function SimpleBuilder:build(state)
     print('simple')
-    
+
     local map = Map()
 
     local map_w, map_h = map.size()
@@ -42,8 +42,6 @@ function SimpleBuilder:build(params)
         end
 
         if ok then
-            applyRoom(map, room)
-
             -- add corridor between newest room and previous room
             if #rooms > 1 then
                 local next_x, next_y = room.center()
@@ -64,18 +62,8 @@ function SimpleBuilder:build(params)
         ::continue::
     end
 
-    -- add stairs up
-    local stair_x, stair_y = rooms[1].center()
-    map.set(stair_x, stair_y, Tile.STAIR_UP)
-
-    -- add stairs down
-    stair_x, stair_y = rooms[#rooms].center()
-    map.set(stair_x, stair_y, Tile.STAIR_DN)
-
-    return map
+    state.map = map
+    state.rooms = rooms
 end
 
--- return setmetatable(M, {
---     __call = function(_, ...) return new(...) end,
--- })
 return SimpleBuilder
