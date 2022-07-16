@@ -68,7 +68,7 @@ end
 
 -- return a random rectangle from a rectangle list
 local function getRandomRect(rects)
-   return rects[random(#rects)].copy()
+   return rects[random(#rects)]
 end
 
 -- return a random position within a rectangle
