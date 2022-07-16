@@ -14,7 +14,7 @@ SimpleBuilder.__index = BuilderBase
 --[[ SIMPLE BUILDER ]]--
 
 local MAX_ROOMS = 30
-local ROOM_SIZE_MIN = 4
+local ROOM_SIZE_MIN = 5
 local ROOM_SIZE_MAX = 9
 
 function SimpleBuilder:build(state)

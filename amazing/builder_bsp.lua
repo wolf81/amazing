@@ -9,7 +9,7 @@ local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
 
 local N_TRIES = 240
-local ROOM_SIZE_MIN = 3
+local ROOM_SIZE_MIN = 5
 local ROOM_SIZE_MAX = 10
 
 --[[ BINARY SPACE PARTITION BUILDER ]]--
@@ -124,8 +124,8 @@ function BSPBuilder:build(state)
         local room = rooms[i]
         local next_room = rooms[i + 1]
 
-        local start_x, start_y = getRandomPosition(room)
-        local end_x, end_y = getRandomPosition(next_room)
+        local start_x, start_y = room.center()
+        local end_x, end_y = next_room.center()
 
         addCorridor(map, start_x, start_y, end_x, end_y)
     end
