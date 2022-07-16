@@ -72,11 +72,19 @@ function CABuilder:build(params)
         return bit.band(map.get(x, y), Tile.WALL) == Tile.WALL
     end)
 
-    for x, y, v in d_map.iter() do
-        if v == math.huge then
+    local stairs = { x = 0, y = 0, dist = 0 }
+    for x, y, dist in d_map.iter() do
+        if dist == math.huge then
             map.set(x, y, Tile.WALL)
+        else
+            if dist > stairs.dist then
+                stairs = { x = x, y = y, dist = dist }
+            end
         end
     end
+
+    if stairs.dist == 0 then error('could not place stairs down') end
+    map.set(stairs.x, stairs.y, Tile.STAIR_DN)
 
     return map
 end

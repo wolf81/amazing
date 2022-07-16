@@ -3,8 +3,6 @@ io.stdout:setvbuf('no') -- show debug output live in SublimeText console
 local amazing = require 'amazing'
 local Tile = amazing.Tile
 
-local PriorityQueue = require 'pqueue'
-
 local canvas = nil
 local player = nil
 local map = nil
@@ -93,6 +91,11 @@ function love.update(dt)
         if player then
             tryMove(player.x + dx, player.y + dy)
         end
+    end
+
+    local tile = map.get(player.x, player.y)
+    if bit.band(tile, Tile.STAIR_DN) == Tile.STAIR_DN then
+        generate()
     end
 end
 
