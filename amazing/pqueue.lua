@@ -25,11 +25,11 @@
 
 local floor, setmetatable = math.floor, setmetatable
 
-local function siftup(self, from)
-  local items, priorities, indices, higherpriority = self, self._priorities, self._indices, self._higherpriority
+local function siftUp(self, from)
+  local items, priorities, indices, sort = self, self._priorities, self._indices, self._sort
   local index = from
   local parent = floor(index / 2)
-  while index > 1 and higherpriority(priorities[index], priorities[parent]) do
+  while index > 1 and sort(priorities[index], priorities[parent]) do
     priorities[index], priorities[parent] = priorities[parent], priorities[index]
     items[index], items[parent] = items[parent], items[index]
     indices[items[index]], indices[items[parent]] = index, parent
@@ -39,17 +39,17 @@ local function siftup(self, from)
   return index
 end
 
-local function siftdown(self, limit)
-  local items, priorities, indices, higherpriority, size = self, self._priorities, self._indices, self._higherpriority, self._size
+local function siftDown(self, limit)
+  local items, priorities, indices, sort, size = self, self._priorities, self._indices, self._sort, self._size
   for index = limit, 1, -1 do
     local left = index + index
     local right = left + 1
     while left <= size do
       local smaller = left
-      if right <= size and higherpriority(priorities[right], priorities[left]) then
+      if right <= size and sort(priorities[right], priorities[left]) then
         smaller = right
       end
-      if higherpriority(priorities[smaller], priorities[index]) then
+      if sort(priorities[smaller], priorities[index]) then
         items[index], items[smaller] = items[smaller], items[index]
         priorities[index], priorities[smaller] = priorities[smaller], priorities[index]
         indices[items[index]], indices[items[smaller]] = index, smaller
@@ -67,35 +67,35 @@ local PriorityQueueMt
 
 local PriorityQueue = {}
 
-local function minishigher(a, b)
+local function sortMin(a, b)
   return a < b
 end
 
-local function maxishigher(a, b)
+local function sortMax(a, b)
   return a > b
 end
 
 function PriorityQueue.new(priority_or_array)
   local t = type(priority_or_array)
-  local higherpriority = minishigher
+  local sort = sortMin
   
   if t == 'table' then
-    higherpriority = priority_or_array.higherpriority or higherpriority
+    sort = priority_or_array.sort or sort
   elseif t == 'function' or t == 'string' then
-    higherpriority = priority_or_array
+    sort = priority_or_array
   elseif t ~= 'nil' then
     local msg = 'Wrong argument type to PriorityQueue.new, it must be table or function or string, has: %q'
     error(msg:format(t))
   end
 
-  if type(higherpriority) == 'string' then
-    if higherpriority == 'min' then
-      higherpriority = minishigher
-    elseif higherpriority == 'max' then
-      higherpriority = maxishigher
+  if type(sort) == 'string' then
+    if sort == 'min' then
+      sort = sortMin
+    elseif sort == 'max' then
+      sort = sortMax
     else
       local msg = 'Wrong string argument to PriorityQueue.new, it must be "min" or "max", has: %q'
-      error(msg:format(tostring(higherpriority)))
+      error(msg:format(tostring(sort)))
     end
   end
 
@@ -103,11 +103,11 @@ function PriorityQueue.new(priority_or_array)
     _priorities = {},
     _indices = {},
     _size = 0,
-    _higherpriority = higherpriority or minishigher,
+    _sort = sort or sortMin,
   }, PriorityQueueMt)
 
   if t == 'table' then
-    self:batchenq(priority_or_array)
+    self:batchEnqueue(priority_or_array)
   end
 
   return self
@@ -121,7 +121,7 @@ function PriorityQueue:enqueue(item, priority)
   local size = self._size + 1
   self._size = size 
   items[size], priorities[size], indices[item] = item, priority, size
-  siftup(self, size) 
+  siftUp(self, size) 
   return self
 end
 
@@ -142,7 +142,7 @@ function PriorityQueue:remove(item)
       size = size - 1
       self._size = size
       if size > 1 then
-        siftdown(self, siftup(self, index)) 
+        siftDown(self, siftUp(self, index)) 
       end
     end
     return true
@@ -181,7 +181,7 @@ function PriorityQueue:dequeue()
     indices[newitem] = 1
     size = size - 1
     self._size = size
-    siftdown(self, 1)
+    siftDown(self, 1)
   else
     items[1], priorities[1] = nil, nil
     self._size = 0
@@ -202,7 +202,7 @@ function PriorityQueue:empty()
   return self._size <= 0
 end
 
-function PriorityQueue:batchenq(iparray)
+function PriorityQueue:batchEnqueue(iparray)
   local items, priorities, indices = self, self._priorities, self._indices
   local size = self._size
   for i = 1, #iparray, 2 do
@@ -216,7 +216,7 @@ function PriorityQueue:batchenq(iparray)
   end
   self._size = size
   if size > 1 then
-    siftdown(self, floor(size / 2))
+    siftDown(self, floor(size / 2))
   end
 end
 
@@ -225,6 +225,6 @@ PriorityQueueMt = {
   __len = PriorityQueue.len,
 }
       
-return setmetatable( PriorityQueue, {
+return setmetatable(PriorityQueue, {
   __call = function(_, ...) return PriorityQueue.new(...) end,
 })
