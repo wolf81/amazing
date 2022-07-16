@@ -50,6 +50,7 @@ local function isPossible(rect, map)
     return true
 end
 
+-- divide a rectangle into for sub rectangles
 local function addSubrects(rects, rect)
     local w = math.abs(rect.x1 - rect.x2)
     local h = math.abs(rect.y1 - rect.y2)
@@ -62,16 +63,19 @@ local function addSubrects(rects, rect)
     rects[#rects + 1] = Rect(rect.x1 + half_w, rect.y1 + half_h, half_w, half_h)
 end
 
+-- return a random rectangle from a rectangle list
 local function getRandomRect(rects)
    return rects[random(#rects)].copy()
 end
 
+-- return a random position within a rectangle
 local function getRandomPosition(rect)
     local x = rect.x1 + random(0, math.abs(rect.x1 - rect.x2))
     local y = rect.y1 + random(0, math.abs(rect.y1 - rect.y2))
     return x, y
 end
 
+-- add corridor to map between (x1, y1) and (x2, y2)
 local function addCorridor(map, x1, y1, x2, y2)
     local x, y = x1, y1
 
@@ -92,27 +96,28 @@ end
 
 function BSPBuilder:build(params)
     local map = Map()
-
-    local rooms = {}
-
     local map_w, map_h = map.size()
 
-    local rects = {}
-    local rect = Rect(1, 1, map_w - 2, map_h - 2)
-    rects[#rects + 1] = rect
+    -- add the intial rectangle and divide into subrectangles
+    local rect = Rect(1, 1, map_w - 1, map_h - 1)
+    local rects = { rect }
     addSubrects(rects, rects[1])
 
+    -- try to add rooms to the map
+    local rooms = {}
     for _ = 1, N_TRIES do
         local rect = getRandomRect(rects)
         local candidate = getRandomSubrect(rect)
 
+        -- if candidate room doesn't overlap other room, add to map
         if isPossible(candidate, map) then
             applyRoom(map, candidate)
             rooms[#rooms + 1] = candidate
-            addSubrects(rects, rect.copy())
+            addSubrects(rects, rect)
         end
     end
 
+    -- add corridors between rooms
     for i = 1, #rooms - 1 do
         local room = rooms[i]
         local next_room = rooms[i + 1]
@@ -123,11 +128,13 @@ function BSPBuilder:build(params)
         addCorridor(map, start_x, start_y, end_x, end_y)
     end
 
-    local stair_x, stair_y = rooms[#rooms].center()
-    map.set(stair_x, stair_y, Tile.STAIR_DN)
-
-    stair_x, stair_y = rooms[1].center()
+    -- add stairs up
+    local stair_x, stair_y = rooms[1].center()
     map.set(stair_x, stair_y, Tile.STAIR_UP)
+
+    -- add stairs down
+    stair_x, stair_y = rooms[#rooms].center()
+    map.set(stair_x, stair_y, Tile.STAIR_DN)
 
     return map
 end
