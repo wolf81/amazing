@@ -22,18 +22,8 @@ function SimpleBuilder:build(params)
 
     local map_w, map_h = map.size()
 
-    for x = 1, map_w do
-        map.set(x, 1, Tile.WALL)
-        map.set(x, map_h, Tile.WALL)
-    end
-
-    for y = 1, map_h do
-        map.set(1, y, Tile.WALL)
-        map.set(map_w, y, Tile.WALL)
-    end
-
+    -- add rooms at random positions
     local rooms = {}
-
     for i = 1, MAX_ROOMS do
         local w = random(MIN_SIZE, MAX_SIZE)
         local h = random(MIN_SIZE, MAX_SIZE)
@@ -43,6 +33,7 @@ function SimpleBuilder:build(params)
         local room = Rect(x, y, w, h)
         local ok = true
 
+        -- make sure rooms don't overlap
         for _, other_room in ipairs(rooms) do
             local ext_room = room.copy().inset(-1, -1, 1, 1)
             if ext_room.intersect(other_room) then ok = false end
@@ -51,6 +42,7 @@ function SimpleBuilder:build(params)
         if ok then
             applyRoom(map, room)
 
+            -- add corridor between newest room and previous room
             if #rooms > 1 then
                 local next_x, next_y = room.center()
                 local prev_x, prev_y = rooms[#rooms - 1].center()
@@ -70,9 +62,11 @@ function SimpleBuilder:build(params)
         ::continue::
     end
 
+    -- add stairs up
     local stair_x, stair_y = rooms[1].center()
     map.set(stair_x, stair_y, Tile.STAIR_UP)
 
+    -- add stairs down
     stair_x, stair_y = rooms[#rooms].center()
     map.set(stair_x, stair_y, Tile.STAIR_DN)
 
