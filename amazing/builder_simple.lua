@@ -42,20 +42,6 @@ function SimpleBuilder:build(state)
         end
 
         if ok then
-            -- add corridor between newest room and previous room
-            if #rooms > 1 then
-                local next_x, next_y = room.center()
-                local prev_x, prev_y = rooms[#rooms - 1].center()
-
-                if oneIn(2) then
-                    applyHorizontalTunnel(map, prev_x, next_x, prev_y)
-                    applyVerticalTunnel(map, prev_y, next_y, next_x)
-                else
-                    applyVerticalTunnel(map, prev_y, next_y, prev_x)
-                    applyHorizontalTunnel(map, prev_x, next_x, next_y)
-                end
-            end
-
             table.insert(rooms, room)
         end
 

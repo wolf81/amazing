@@ -76,25 +76,6 @@ local function getRandomPosition(rect)
     return x, y
 end
 
--- add corridor to map between (x1, y1) and (x2, y2)
-local function addCorridor(map, x1, y1, x2, y2)
-    local x, y = x1, y1
-
-    while (x ~= x2 or y ~= y2) do
-        if x < x2 then
-            x = x + 1
-        elseif x > x2 then
-            x = x - 1
-        elseif y < y2 then
-            y = y + 1
-        elseif y > y2 then
-            y = y - 1
-        end
-
-        map.set(x, y, Tile.FLOOR)
-    end
-end
-
 function BSPBuilder:build(state)
     print('bsp')
 
@@ -117,17 +98,6 @@ function BSPBuilder:build(state)
             rooms[#rooms + 1] = candidate
             addSubrects(rects, rect)
         end
-    end
-
-    -- add corridors between rooms
-    for i = 1, #rooms - 1 do
-        local room = rooms[i]
-        local next_room = rooms[i + 1]
-
-        local start_x, start_y = room.center()
-        local end_x, end_y = next_room.center()
-
-        addCorridor(map, start_x, start_y, end_x, end_y)
     end
 
     state.map = map
