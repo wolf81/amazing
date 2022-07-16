@@ -4,8 +4,6 @@ local PriorityQueue = require(PATH .. '.pqueue')
 local Map = require(PATH .. '.map')
 local Tile = require(PATH .. '.tile')
 
---[[ DIJKSTRA MAP ]] --
-
 local function getNeighbors(x, y)
     return { 
         { x - 1, y },
@@ -58,24 +56,6 @@ local function dijkstra_map(map, x, y, blocked)
 
         d_map.set(x, y, dist)
     end
-
-    --[[
-    local map_w, map_h = d_map.size()
-    local s = ''
-    for y = 1, map_h do
-        for x = 1, map_w do
-            local v = d_map.get(x,y)
-            if v == -1 then 
-                s = s .. ' ' 
-            else 
-                v = v < 16 and string.format('%X', v) or 'F'
-                s = s .. (v == math.huge and '·' or v)
-            end
-        end
-        s = s .. '\n'
-    end
-    print(s)
-    --]]
 
     return d_map
 end
