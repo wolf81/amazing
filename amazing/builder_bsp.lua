@@ -10,7 +10,7 @@ local BuilderBase = require(PATH .. '.builder_base')
 
 local N_TRIES = 240
 
---[[ BINARY SPACE PARTITION ]]--
+--[[ BINARY SPACE PARTITION BUILDER ]]--
 
 local BSPBuilder = {}
 BSPBuilder.__index = BuilderBase

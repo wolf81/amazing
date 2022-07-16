@@ -25,7 +25,7 @@ function applyRoom(map, room)
     end
 end
 
---[[ BUILDER BASE ]]--
+--[[ BUILDER BASE CLASS ]]--
 
 local BuilderBase = {}
 BuilderBase.__index = BuilderBase
