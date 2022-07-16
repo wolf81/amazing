@@ -40,6 +40,27 @@ local function new(x, y, w, h)
         return self
     end
 
+    self.iter = function()
+        local x, y = self.x1, self.y1
+
+        return function()
+            while true do
+                x = x + 1
+
+                if x > self.x2 then
+                    y = y + 1
+                    x = self.x1
+                end
+
+                if y > self.y2 then break end
+
+                return x, y
+            end
+
+            return nil
+        end
+    end
+
     return readOnly(self)
 end
 

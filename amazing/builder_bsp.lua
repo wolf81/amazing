@@ -30,6 +30,8 @@ local function getRandomSubrect(rect)
     )
 end
 
+-- make sure a rectangle is not overlapping another room
+-- we check this by making sure each tile is a wall tile
 local function isPossible(rect, map)
     local ext_rect = rect.copy().inset(-1, -1, 1, 1)
     local map_w, map_h = map.size()
@@ -39,11 +41,9 @@ local function isPossible(rect, map)
     if ext_rect.y1 < 1 then return false end
     if ext_rect.y2 > map_h then return false end
 
-    for y = ext_rect.y1, ext_rect.y2 do        
-        for x = ext_rect.x1, ext_rect.x2 do
-            if bit.band(map.get(x, y), Tile.WALL) ~= Tile.WALL then
-                return false
-            end
+    for x, y in ext_rect.iter() do
+        if bit.band(map.get(x, y), Tile.WALL) ~= Tile.WALL then
+            return false
         end
     end
 
