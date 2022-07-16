@@ -14,10 +14,12 @@ SimpleBuilder.__index = BuilderBase
 --[[ SIMPLE BUILDER ]]--
 
 local MAX_ROOMS = 30
-local MIN_SIZE = 6
-local MAX_SIZE = 9
+local ROOM_SIZE_MIN = 4
+local ROOM_SIZE_MAX = 9
 
 function SimpleBuilder:build(params)
+    print('simple')
+    
     local map = Map()
 
     local map_w, map_h = map.size()
@@ -25,8 +27,8 @@ function SimpleBuilder:build(params)
     -- add rooms at random positions
     local rooms = {}
     for i = 1, MAX_ROOMS do
-        local w = random(MIN_SIZE, MAX_SIZE)
-        local h = random(MIN_SIZE, MAX_SIZE)
+        local w = random(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
+        local h = random(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
         local x = random(3, map_w - w) - 1
         local y = random(3, map_h - h) - 1
 

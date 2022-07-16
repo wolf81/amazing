@@ -15,6 +15,8 @@ local CABuilder = {}
 CABuilder.__index = BuilderBase
 
 function CABuilder:build(params)
+    print('ca')
+    
     local map = Map()
 
     local map_w, map_h = map.size()

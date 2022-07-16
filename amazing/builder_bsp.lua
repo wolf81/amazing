@@ -9,18 +9,21 @@ local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
 
 local N_TRIES = 240
+local ROOM_SIZE_MIN = 3
+local ROOM_SIZE_MAX = 10
 
 --[[ BINARY SPACE PARTITION BUILDER ]]--
 
 local BSPBuilder = {}
 BSPBuilder.__index = BuilderBase
 
+-- return a random sub rectangle from a larger rectangle
 local function getRandomSubrect(rect)
     local rect_w = math.abs(rect.x1 - rect.x2)
     local rect_h = math.abs(rect.y1 - rect.y2)
 
-    local w = math.max(3, random(1, math.min(10, rect_w)))
-    local h = math.max(3, random(1, math.min(10, rect_h)))
+    local w = math.max(ROOM_SIZE_MIN, random(1, math.min(ROOM_SIZE_MAX, rect_w))) - 1
+    local h = math.max(ROOM_SIZE_MIN, random(1, math.min(ROOM_SIZE_MAX, rect_h))) - 1
 
     return Rect(
         rect.x1 + random(1, 6) - 1,
@@ -95,6 +98,8 @@ local function addCorridor(map, x1, y1, x2, y2)
 end
 
 function BSPBuilder:build(params)
+    print('bsp')
+
     local map = Map()
     local map_w, map_h = map.size()
 
