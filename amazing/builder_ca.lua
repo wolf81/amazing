@@ -9,6 +9,8 @@ local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
 local Dijkstra = require(PATH .. '.dijkstra')
 
+--[[ CELLULAR AUTOMATA ]]--
+
 local CABuilder = {}
 CABuilder.__index = BuilderBase
 

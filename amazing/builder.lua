@@ -17,8 +17,13 @@ local function simple()
     return SimpleBuilder
 end
 
+local function ca()
+    return CABuilder
+end
+
 return {
     random = random,
     simple = simple,
     bsp = bsp,
+    ca = ca,
 }

@@ -155,11 +155,6 @@ function PriorityQueue:contains( item )
   return self._indices[item] ~= nil
 end
 
-function PriorityQueue:get(item)
-  local idx = self._indices[item]
-  return self._priorities[idx]
-end
-
 function PriorityQueue:update( item, priority )
   local ok = self:remove( item )
   if ok then

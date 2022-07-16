@@ -25,7 +25,7 @@ function applyRoom(map, room)
     end
 end
 
---[[ BUILDER BASE ]]
+--[[ BUILDER BASE ]]--
 
 local BuilderBase = {}
 BuilderBase.__index = BuilderBase
@@ -36,7 +36,7 @@ function BuilderBase:new(tbl)
 end
 
 function BuilderBase:build()
-    return Map()
+    error('should be implemented by subclasses')
 end
 
 return setmetatable(BuilderBase, {

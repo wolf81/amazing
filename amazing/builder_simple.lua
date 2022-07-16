@@ -11,15 +11,13 @@ local BuilderBase = require(PATH .. '.builder_base')
 local SimpleBuilder = {}
 SimpleBuilder.__index = BuilderBase
 
---[[ GENERATOR ]]--
+--[[ SIMPLE BUILDER ]]--
 
 local MAX_ROOMS = 30
 local MIN_SIZE = 6
 local MAX_SIZE = 9
 
 function SimpleBuilder:build(params)
-    print('build simple')
-
     local map = Map()
 
     local map_w, map_h = map.size()
@@ -72,11 +70,11 @@ function SimpleBuilder:build(params)
         ::continue::
     end
 
-    local stair_x, stair_y = rooms[#rooms].center()
-    map.set(stair_x, stair_y, Tile.STAIR_DN)
-
-    stair_x, stair_y = rooms[1].center()
+    local stair_x, stair_y = rooms[1].center()
     map.set(stair_x, stair_y, Tile.STAIR_UP)
+
+    stair_x, stair_y = rooms[#rooms].center()
+    map.set(stair_x, stair_y, Tile.STAIR_DN)
 
     return map
 end

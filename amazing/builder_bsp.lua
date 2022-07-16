@@ -10,6 +10,8 @@ local BuilderBase = require(PATH .. '.builder_base')
 
 local N_TRIES = 240
 
+--[[ BINARY SPACE PARTITION ]]--
+
 local BSPBuilder = {}
 BSPBuilder.__index = BuilderBase
 
@@ -89,8 +91,6 @@ local function addCorridor(map, x1, y1, x2, y2)
 end
 
 function BSPBuilder:build(params)
-    print('build bsp')
-
     local map = Map()
 
     local rooms = {}
