@@ -72,34 +72,11 @@ function CABuilder:build(params)
         return bit.band(map.get(x, y), Tile.WALL) == Tile.WALL
     end)
 
-
---[[
- // Now we iteratively apply cellular automata rules
-    for _i in 0..15 {
-        let mut newtiles = self.map.tiles.clone();
-
-        for y in 1..self.map.height-1 {
-            for x in 1..self.map.width-1 {
-                let idx = self.map.xy_idx(x, y);
-                let mut neighbors = 0;
-                if self.map.tiles[idx - 1] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx + 1] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx - self.map.width as usize] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx + self.map.width as usize] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx - (self.map.width as usize - 1)] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx - (self.map.width as usize + 1)] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx + (self.map.width as usize - 1)] == TileType::Wall { neighbors += 1; }
-                if self.map.tiles[idx + (self.map.width as usize + 1)] == TileType::Wall { neighbors += 1; }
-
-                if neighbors > 4 || neighbors == 0 {
-                    newtiles[idx] = TileType::Wall;
-                }
-                else {
-                    newtiles[idx] = TileType::Floor;
-                }
-            }
-        }
-        --]]
+    for x, y, v in d_map.iter() do
+        if v == math.huge then
+            map.set(x, y, Tile.WALL)
+        end
+    end
 
     return map
 end
