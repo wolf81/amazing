@@ -90,7 +90,7 @@ function CABuilder:build(params)
         end
     end
 
-    if stairs.dist == 0 then error('could not place stairs down') end
+    assert(stairs.dist > 0, 'could not place stairs down')
 
     -- add stairs down
     map.set(stairs.x, stairs.y, Tile.STAIR_DN)

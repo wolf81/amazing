@@ -10,8 +10,7 @@ local dx, dy = 0, 0
 local step_delay = 0
 
 local function generate()
-    love.math.setRandomSeed(1)
-    local builder = amazing.builder.bsp()
+    local builder = amazing.builder.random()
 
     map, player = builder.build({
         dungeon_size    = 'medium',
