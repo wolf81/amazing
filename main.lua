@@ -21,6 +21,7 @@ local function generate()
     })
 
     love.graphics.setFont(love.graphics.newFont(14))
+    love.window.setTitle('Amazing')
     love.window.setMode(1280, 800, { ['highdpi'] = false })
 
     canvas = love.graphics.newCanvas()
