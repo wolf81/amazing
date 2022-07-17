@@ -1,17 +1,14 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
 local Map = require(PATH .. '.map')
-local Rect = require(PATH .. '.rect')
 local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
-
--- require(PATH .. '.util')
 
 local lrandom = love.math.random
 
 local Builder = BuilderBase.new()
 
---[[ SIMPLE BUILDER ]]--
+--[[ MAZE BUILDER ]]--
 
 local MAX_ROOMS = 30
 local ROOM_SIZE_MIN = 5
