@@ -1,12 +1,13 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.util')
-
-local random = love.math.random
 local Map = require(PATH .. '.map')
 local Rect = require(PATH .. '.rect')
 local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
+
+require(PATH .. '.util')
+
+local lrandom = love.math.random
 
 local Builder = BuilderBase.new()
 
@@ -26,10 +27,10 @@ function Builder.build(state)
     -- add rooms at random positions
     local rooms = {}
     while #rooms < MAX_ROOMS do
-        local w = random(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
-        local h = random(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
-        local x = random(3, map_w - w) - 1
-        local y = random(3, map_h - h) - 1
+        local w = lrandom(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
+        local h = lrandom(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
+        local x = lrandom(3, map_w - w) - 1
+        local y = lrandom(3, map_h - h) - 1
 
         local room = Rect(x, y, w, h)
         local ok = true

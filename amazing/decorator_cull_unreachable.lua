@@ -2,7 +2,6 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 local DecoratorBase = require(PATH .. '.decorator_base')
 local Tile = require(PATH .. '.tile')
-local Dijkstra = require(PATH .. '.dijkstra')
 
 require(PATH .. '.common')
 

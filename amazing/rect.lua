@@ -1,7 +1,5 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.util')
-
 local Rect = {}
 
 local function new(x, y, w, h)

@@ -1,12 +1,13 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.util')
-
-local random = love.math.random
 local Map = require(PATH .. '.map')
 local Rect = require(PATH .. '.rect')
 local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
+
+require(PATH .. '.util')
+
+local lrandom = love.math.random
 
 local N_TRIES = 240
 local ROOM_SIZE_MIN = 5
@@ -21,12 +22,12 @@ local function getRandomSubrect(rect)
     local rect_w = math.abs(rect.x1 - rect.x2)
     local rect_h = math.abs(rect.y1 - rect.y2)
 
-    local w = math.max(ROOM_SIZE_MIN, random(1, math.min(ROOM_SIZE_MAX, rect_w))) - 1
-    local h = math.max(ROOM_SIZE_MIN, random(1, math.min(ROOM_SIZE_MAX, rect_h))) - 1
+    local w = math.max(ROOM_SIZE_MIN, lrandom(1, math.min(ROOM_SIZE_MAX, rect_w))) - 1
+    local h = math.max(ROOM_SIZE_MIN, lrandom(1, math.min(ROOM_SIZE_MAX, rect_h))) - 1
 
     return Rect(
-        rect.x1 + random(1, 6) - 1,
-        rect.y1 + random(1, 6) - 1,
+        rect.x1 + lrandom(1, 6) - 1,
+        rect.y1 + lrandom(1, 6) - 1,
         w,
         h
     )
@@ -65,13 +66,13 @@ end
 
 -- return a random rectangle from a rectangle list
 local function getRandomRect(rects)
-   return rects[random(#rects)]
+   return rects[lrandom(#rects)]
 end
 
 -- return a random position within a rectangle
 local function getRandomPosition(rect)
-    local x = rect.x1 + random(0, math.abs(rect.x1 - rect.x2))
-    local y = rect.y1 + random(0, math.abs(rect.y1 - rect.y2))
+    local x = rect.x1 + lrandom(0, math.abs(rect.x1 - rect.x2))
+    local y = rect.y1 + lrandom(0, math.abs(rect.y1 - rect.y2))
     return x, y
 end
 

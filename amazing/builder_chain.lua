@@ -21,9 +21,6 @@ BuilderChain.new = function(map_builder, decorators)
     }
 
     local build = function()
-        print('build map')
-
-        -- TODO: should use simple '.' API like decorators instead of ':'
         map_builder.build(state)
 
         for _, decorator in ipairs(decorators or {}) do

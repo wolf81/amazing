@@ -1,13 +1,12 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.util')
-
-local random = love.math.random
 local Map = require(PATH .. '.map')
-local Rect = require(PATH .. '.rect')
 local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
-local Dijkstra = require(PATH .. '.dijkstra')
+
+require(PATH .. '.util')
+
+local lrandom = love.math.random
 
 --[[ CELLULAR AUTOMATA BUILDER ]]--
 
@@ -23,7 +22,7 @@ function Builder.build(state)
     -- add floor tiles to the interior of the map
     for y = 2, map_h - 1 do
         for x = 2, map_w - 1 do
-            if random(1, 100) > 55 then
+            if lrandom(1, 100) > 55 then
                 map.set(x, y, Tile.FLOOR)
             end
         end

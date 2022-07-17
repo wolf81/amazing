@@ -1,6 +1,6 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local random = love.math.random
+local lrandom = love.math.random
 
 -- return true if a random 1-in-n value is equal to 1:
 -- * oneIn(1): return true 100% of the time
@@ -8,13 +8,13 @@ local random = love.math.random
 -- * oneIn(3): return true ~33% of the time
 -- * oneIn(10): return true ~10% of the time
 function oneIn(count)
-    return random(count) == 1
+    return lrandom(count) == 1
 end
 
 -- shuffle array
 function shuffle(arr)    
     for i = #arr, 2, -1 do
-        local j = random(i)
+        local j = lrandom(i)
         arr[i], arr[j] = arr[j], arr[i]
     end
 
