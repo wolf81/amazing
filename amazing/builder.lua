@@ -4,6 +4,7 @@ local SimpleBuilder = require(PATH .. '.builder_simple')
 local BSPBuilder = require(PATH .. '.builder_bsp')
 local CABuilder = require(PATH .. '.builder_ca')
 local MazeBuilder = require(PATH .. '.builder_maze')
+local HiveBuilder = require(PATH .. '.builder_hive')
 local BuilderChain = require(PATH .. '.builder_chain')
 local RoomDecorator = require(PATH .. '.decorator_room')
 local CullUnreachableDecorator = require(PATH .. '.decorator_cull_unreachable')
@@ -44,8 +45,16 @@ local function maze()
     })
 end
 
+local function hive()
+    return BuilderChain(HiveBuilder, { 
+        CullUnreachableDecorator,
+        DoorDecorator,
+        StairsDecorator,
+    })
+end
+
 local function random()
-    local builders = { maze(), simple(), bsp(), ca() }
+    local builders = { maze(), simple(), bsp(), ca(), hive() }
     return builders[love.math.random(#builders)]
 end
 

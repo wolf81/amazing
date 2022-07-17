@@ -10,7 +10,7 @@ local Decorator = DecoratorBase.new()
 local function isDoorPossible(map, x, y)
     if (bband(map.get(x, y), Tile.FLOOR) == Tile.FLOOR and
         bband(map.get(x - 1, y), Tile.FLOOR) == Tile.FLOOR and
-        bband(map.get(x - 1, y), Tile.FLOOR) == Tile.FLOOR and
+        bband(map.get(x + 1, y), Tile.FLOOR) == Tile.FLOOR and
         bband(map.get(x, y - 1), Tile.WALL) == Tile.WALL and
         bband(map.get(x, y + 1), Tile.WALL) == Tile.WALL) 
     then
