@@ -25,7 +25,7 @@ function Builder.build(state)
 
     -- add rooms at random positions
     local rooms = {}
-    for i = 1, MAX_ROOMS do
+    while #rooms < MAX_ROOMS do
         local w = random(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
         local h = random(ROOM_SIZE_MIN, ROOM_SIZE_MAX) - 1
         local x = random(3, map_w - w) - 1
