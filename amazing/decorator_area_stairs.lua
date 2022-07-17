@@ -5,16 +5,16 @@ local DecoratorBase = require(PATH .. '.decorator_base')
 
 require(PATH .. '.common')
 
-local AreaStairsDecorator = DecoratorBase.new()
+local Decorator = DecoratorBase.new()
 
-function AreaStairsDecorator.decorate(state)
+function Decorator.decorate(state)
     print('- add area stairs')
 
     -- add stairs up
     state.map.set(state.start.x, state.start.y, Tile.STAIR_UP)
 
     -- create a Dijkstra map which we'll use to calculate tile distances
-    local d_map = dijkstraMap(state)
+    local d_map = dijkstraMap(state.map, state.start.x, state.start.y, Tile.WALL)
 
     -- find tile furthest away from start position to place stairs down
     local stairs = { x = 0, y = 0, dist = 0 }
@@ -30,4 +30,4 @@ function AreaStairsDecorator.decorate(state)
     state.map.set(stairs.x, stairs.y, Tile.STAIR_DN)    
 end
 
-return AreaStairsDecorator
+return Decorator

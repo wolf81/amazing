@@ -1,8 +1,11 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
+local DecoratorBase = require(PATH .. '.decorator_base')
 local Tile = require(PATH .. '.tile')
 
-local function decorate(state)
+local Decorator = DecoratorBase.new()
+
+function Decorator.decorate(state)
     print('- add room stairs')
 
     assert(state.rooms ~= nil, 'rooms must be defined')
@@ -15,6 +18,4 @@ local function decorate(state)
     state.map.set(stair_x, stair_y, Tile.STAIR_DN)
 end
 
-return {
-    decorate = decorate,
-}
+return Decorator

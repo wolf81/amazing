@@ -8,7 +8,7 @@ local Rect = require(PATH .. '.rect')
 local Tile = require(PATH .. '.tile')
 local BuilderBase = require(PATH .. '.builder_base')
 
-local SimpleBuilder = BuilderBase.new()
+local Builder = BuilderBase.new()
 
 --[[ SIMPLE BUILDER ]]--
 
@@ -16,7 +16,7 @@ local MAX_ROOMS = 30
 local ROOM_SIZE_MIN = 5
 local ROOM_SIZE_MAX = 9
 
-function SimpleBuilder.build(state)
+function Builder.build(state)
     print('simple')
 
     local map = Map()
@@ -54,4 +54,4 @@ function SimpleBuilder.build(state)
     state.start = { x = start_x, y = start_y }
 end
 
-return SimpleBuilder
+return Builder

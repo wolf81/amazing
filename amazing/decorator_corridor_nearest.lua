@@ -1,12 +1,11 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
+local DecoratorBase = require(PATH .. '.decorator_base')
 local Tile = require(PATH .. '.tile')
 
-function getDistance(x1, y1, x2, y2)
-    local dx = x2 - x1
-    local dy = y2 - y1
-    return math.sqrt((dx ^ 2) + (dy ^ 2)) 
-end
+require(PATH .. '.common')
+
+local Decorator = DecoratorBase.new()
 
 -- add corridor to map between (x1, y1) and (x2, y2)
 local function addCorridor(map, x1, y1, x2, y2)
@@ -27,7 +26,7 @@ local function addCorridor(map, x1, y1, x2, y2)
     end
 end
 
-local function decorate(state)
+function Decorator.decorate(state)
     print('- nearest corridors')
 
     local connected = {}
@@ -57,6 +56,4 @@ local function decorate(state)
     end
 end
 
-return {
-    decorate = decorate,
-}
+return Decorator

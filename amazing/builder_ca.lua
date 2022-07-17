@@ -11,9 +11,9 @@ local Dijkstra = require(PATH .. '.dijkstra')
 
 --[[ CELLULAR AUTOMATA BUILDER ]]--
 
-local CABuilder = BuilderBase.new()
+local Builder = BuilderBase.new()
 
-function CABuilder.build(state)
+function Builder.build(state)
     print('ca')
 
     local map = Map()
@@ -76,4 +76,4 @@ function CABuilder.build(state)
     state.map = map
 end
 
-return CABuilder
+return Builder

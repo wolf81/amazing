@@ -9,6 +9,8 @@ local PriorityQueue = require(PATH .. '.pqueue')
 local Map = require(PATH .. '.map')
 local Tile = require(PATH .. '.tile')
 
+local mmin, mhuge = math.min, math.huge
+
 -- get neighbor tile positions based on x & y value
 local function getNeighbors(x, y)
     return { 
@@ -30,7 +32,7 @@ end
 local function dijkstra_map(map, x, y, blocked)
     local map_w, map_h = map.size()
     local start = { x = x, y = y }    
-    local d_map = Map(map_w, map_h, math.huge)
+    local d_map = Map(map_w, map_h, mhuge)
     local unvisited = PriorityQueue()
 
     -- create an empty Dijkstra map, all tile distances are set to math.huge
@@ -39,8 +41,8 @@ local function dijkstra_map(map, x, y, blocked)
         if blocked(x, y) then
             d_map.set(x, y, nan)
         else
-            d_map.set(x, y, math.huge)
-            unvisited:enqueue(getKey(x, y), math.huge)
+            d_map.set(x, y, mhuge)
+            unvisited:enqueue(getKey(x, y), mhuge)
         end
     end
 
@@ -64,7 +66,7 @@ local function dijkstra_map(map, x, y, blocked)
             if not unvisited:contains(n_key) then goto continue end
 
             -- calculate distance and update the unvisited neighbor tile
-            local n_dist = math.min(d_map.get(n_x, n_y), dist + 1)
+            local n_dist = mmin(d_map.get(n_x, n_y), dist + 1)
             unvisited:update(getKey(n_x, n_y), n_dist)
 
             ::continue::

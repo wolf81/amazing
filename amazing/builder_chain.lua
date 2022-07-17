@@ -1,7 +1,17 @@
+local PATH = (...):match("(.-)[^%.]+$") 
+
+local BuilderBase = require(PATH .. '.builder_base')
+local DecoratorBase = require(PATH .. '.decorator_base')
+
 local BuilderChain = {}
 
 BuilderChain.new = function(map_builder, decorators)
     assert(map_builder ~= nil, 'a map builder must be defined')
+    assert(getmetatable(map_builder) == BuilderBase, 'map builder should be of type BuilderBase')
+
+    for _, decorator in ipairs(decorators or {}) do
+        assert(getmetatable(decorator) == DecoratorBase, 'decorator should be of type DecoratorBase') 
+    end
 
     local state = {
         map = nil,

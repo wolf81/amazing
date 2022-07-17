@@ -1,14 +1,12 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
 require(PATH .. '.util')
+require(PATH .. '.common')
 
+local DecoratorBase = require(PATH .. '.decorator_base')
 local Tile = require(PATH .. '.tile')
 
-function getDistance(x1, y1, x2, y2)
-    local dx = x2 - x1
-    local dy = y2 - y1
-    return math.sqrt((dx ^ 2) + (dy ^ 2)) 
-end
+local Decorator = DecoratorBase.new()
 
 local function rectangle(state, room)
     for x, y in room.iter() do
@@ -30,7 +28,7 @@ local function circle(state, room)
     end
 end
 
-local function decorate(state)
+function Decorator.decorate(state)
     print('- add rooms')
 
     for _, room in ipairs(state.rooms) do
@@ -42,6 +40,4 @@ local function decorate(state)
     end
 end
 
-return {
-    decorate = decorate,
-}
+return Decorator
