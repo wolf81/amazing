@@ -7,13 +7,14 @@ BuilderChain.new = function(map_builder, decorators)
         map = nil,
         rooms = nil,
         start = nil,
+        corridors = nil,
     }
 
     local build = function()
         print('build map')
 
         -- TODO: should use simple '.' API like decorators instead of ':'
-        map_builder:build(state)
+        map_builder.build(state)
 
         for _, decorator in ipairs(decorators or {}) do
             decorator.decorate(state)

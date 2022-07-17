@@ -1,17 +1,13 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
 local Tile = require(PATH .. '.tile')
-local Dijkstra = require(PATH .. '.dijkstra')
+local DecoratorBase = require(PATH .. '.decorator_base')
 
-local function dijkstraMap(state)
-    local blocked = function(x, y)
-        return bit.band(state.map.get(x, y), Tile.WALL) == Tile.WALL
-    end
+require(PATH .. '.common')
 
-    return Dijkstra.map(state.map, state.start.x, state.start.y, blocked)
-end
+local AreaStairsDecorator = DecoratorBase.new()
 
-local function decorate(state)
+function AreaStairsDecorator.decorate(state)
     print('- add area stairs')
 
     -- add stairs up
@@ -34,6 +30,4 @@ local function decorate(state)
     state.map.set(stairs.x, stairs.y, Tile.STAIR_DN)    
 end
 
-return {
-    decorate = decorate,
-}
+return AreaStairsDecorator

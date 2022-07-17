@@ -14,8 +14,7 @@ local ROOM_SIZE_MAX = 10
 
 --[[ BINARY SPACE PARTITION BUILDER ]]--
 
-local BSPBuilder = {}
-BSPBuilder.__index = BuilderBase
+local BSPBuilder = BuilderBase.new()
 
 -- return a random sub rectangle from a larger rectangle
 local function getRandomSubrect(rect)
@@ -76,7 +75,7 @@ local function getRandomPosition(rect)
     return x, y
 end
 
-function BSPBuilder:build(state)
+function BSPBuilder.build(state)
     print('bsp')
 
     local map = Map()
