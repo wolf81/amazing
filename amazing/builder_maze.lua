@@ -61,7 +61,7 @@ local function carve(cx, cy, map)
 end
 
 function Builder.build(state)
-    print('build maze')
+    print('maze')
 
     local map = Map()
     local map_w, map_h = map.size()
