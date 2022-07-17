@@ -6,9 +6,8 @@ local CABuilder = require(PATH .. '.builder_ca')
 local MazeBuilder = require(PATH .. '.builder_maze')
 local BuilderChain = require(PATH .. '.builder_chain')
 local RoomDecorator = require(PATH .. '.decorator_room')
-local RoomStairsDecorator = require(PATH .. '.decorator_room_stairs')
 local CullUnreachableDecorator = require(PATH .. '.decorator_cull_unreachable')
-local AreaStairsDecorator = require(PATH .. '.decorator_area_stairs')
+local StairsDecorator = require(PATH .. '.decorator_stairs')
 local NearestCorridorDecorator = require(PATH .. '.decorator_corridor_nearest')
 local DoorDecorator = require(PATH .. '.decorator_door')
 
@@ -17,7 +16,7 @@ local function bsp()
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
-        RoomStairsDecorator,
+        StairsDecorator,
     })
 end
 
@@ -26,7 +25,7 @@ local function simple()
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
-        RoomStairsDecorator,
+        StairsDecorator,
     })
 end
 
@@ -34,14 +33,14 @@ local function ca()
     return BuilderChain(CABuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
-        AreaStairsDecorator,
+        StairsDecorator,
     })
 end
 
 local function maze()
     return BuilderChain(MazeBuilder, { 
         CullUnreachableDecorator,
-        AreaStairsDecorator,
+        StairsDecorator,
     })
 end
 
