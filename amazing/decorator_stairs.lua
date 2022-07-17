@@ -3,6 +3,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 local DecoratorBase = require(PATH .. '.decorator_base')
 local Tile = require(PATH .. '.tile')
 
+require(PATH .. '.util')
+
 local Decorator = DecoratorBase.new()
 
 function Decorator.decorate(state)
@@ -12,8 +14,17 @@ function Decorator.decorate(state)
     state.map.set(state.start.x, state.start.y, Tile.STAIR_UP)
 
     if state.rooms and #state.rooms > 1 then
+        local room_dist = {}
+
+        for _, room in ipairs(state.rooms) do
+            local cx, cy = room.center()
+            local dist = getDistance(state.start.x, state.start.y, cx, cy)
+            room_dist[#room_dist + 1] = { room = room, dist = dist }
+        end
+        table.sort(room_dist, function(a, b) return a.dist > b.dist end)
+
         -- add stairs down
-        local stair_x, stair_y = state.rooms[#state.rooms].center()
+        local stair_x, stair_y = room_dist[1].room.center()
         state.map.set(stair_x, stair_y, Tile.STAIR_DN)
     else
         -- create a Dijkstra map which we'll use to calculate tile distances
