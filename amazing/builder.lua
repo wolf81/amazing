@@ -3,6 +3,7 @@ local PATH = (...):match("(.-)[^%.]+$")
 local SimpleBuilder = require(PATH .. '.builder_simple')
 local BSPBuilder = require(PATH .. '.builder_bsp')
 local CABuilder = require(PATH .. '.builder_ca')
+local MazeBuilder = require(PATH .. '.builder_maze')
 local BuilderChain = require(PATH .. '.builder_chain')
 local RoomDecorator = require(PATH .. '.decorator_room')
 local RoomStairsDecorator = require(PATH .. '.decorator_room_stairs')
@@ -37,8 +38,15 @@ local function ca()
     })
 end
 
+local function maze()
+    return BuilderChain(MazeBuilder, { 
+        CullUnreachableDecorator,
+        AreaStairsDecorator,
+    })
+end
+
 local function random()
-    local builders = { simple(), bsp(), ca() }
+    local builders = { maze(), simple(), bsp(), ca() }
     return builders[love.math.random(#builders)]
 end
 

@@ -2,9 +2,10 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 local Tile = require(PATH .. '.tile')
 
-local M = {}
+local Map = {}
+Map.__index = Map
 
-function new(w, h, v)
+function Map.new(w, h, v)
     local w = w or 80
     local h = h or 50
 
@@ -65,7 +66,7 @@ function new(w, h, v)
     end
 
     local function copy()
-        return new(w, h, { unpack(tiles) })
+        return Map.new(w, h, { unpack(tiles) })
     end
 
     return setmetatable({
@@ -75,9 +76,9 @@ function new(w, h, v)
         size = size,
         iter = iter,
         copy = copy,
-    }, M)
+    }, Map)
 end
 
-return setmetatable(M, {
-    __call = function(_, w, h, v) return new(w, h, v) end,
+return setmetatable(Map, {
+    __call = function(_, ...) return Map.new(...) end,
 })
