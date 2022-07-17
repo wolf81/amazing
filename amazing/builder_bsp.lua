@@ -102,6 +102,9 @@ function BSPBuilder:build(state)
 
     state.map = map
     state.rooms = rooms
+
+    local start_x, start_y = rooms[1].center()
+    state.start = { x = start_x, y = start_y }
 end
 
 return BSPBuilder

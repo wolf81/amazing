@@ -13,16 +13,16 @@ local NearestCorridorDecorator = require(PATH .. '.decorator_corridor_nearest')
 local function bsp()
     return BuilderChain(BSPBuilder, { 
         RoomDecorator,
-        RoomStairsDecorator,
         NearestCorridorDecorator,
+        RoomStairsDecorator,
     })
 end
 
 local function simple()
     return BuilderChain(SimpleBuilder, { 
         RoomDecorator,
-        RoomStairsDecorator,
         NearestCorridorDecorator,
+        RoomStairsDecorator,
     })
 end
 
