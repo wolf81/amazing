@@ -11,6 +11,8 @@ local Decorator = DecoratorBase.new()
 local function addCorridor(map, x1, y1, x2, y2)
     local x, y = x1, y1
 
+    local corridor = {}
+
     while (x ~= x2 or y ~= y2) do
         if x < x2 then
             x = x + 1
@@ -22,12 +24,20 @@ local function addCorridor(map, x1, y1, x2, y2)
             y = y - 1
         end
 
+        if bit.band(map.get(x, y), Tile.FLOOR) ~= Tile.FLOOR then
+            corridor[#corridor + 1] = { x, y }
+        end
+
         map.set(x, y, Tile.FLOOR)
     end
+
+    return corridor
 end
 
 function Decorator.decorate(state)
     print('- nearest corridors')
+
+    local corridors = {}
 
     local connected = {}
     for i, room in ipairs(state.rooms) do
@@ -51,9 +61,12 @@ function Decorator.decorate(state)
             local other_x, other_y = state.rooms[room_dist[1].idx].center()
             connected[i] = true
 
-            addCorridor(state.map, room_x, room_y, other_x, other_y)
+            local corridor = addCorridor(state.map, room_x, room_y, other_x, other_y)
+            corridors[#corridors + 1] = corridor
         end
     end
+
+    state.corridors = corridors
 end
 
 return Decorator

@@ -32,6 +32,9 @@ local function generate()
         if bit.band(v, Tile.WALL) ~= 0 then
             s = '#'
             c = { 0.0, 0.6, 0.0 }
+        elseif bit.band(v, Tile.DOOR) ~= 0 then
+            s = '+'
+            c = { 1.0, 0.0, 1.0 }
         elseif bit.band(v, Tile.STAIR_DN) ~= 0 then
             s = '>'
         elseif bit.band(v, Tile.STAIR_UP) ~= 0 then

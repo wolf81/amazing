@@ -9,11 +9,13 @@ local RoomStairsDecorator = require(PATH .. '.decorator_room_stairs')
 local CullUnreachableDecorator = require(PATH .. '.decorator_cull_unreachable')
 local AreaStairsDecorator = require(PATH .. '.decorator_area_stairs')
 local NearestCorridorDecorator = require(PATH .. '.decorator_corridor_nearest')
+local DoorDecorator = require(PATH .. '.decorator_door')
 
 local function bsp()
     return BuilderChain(BSPBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,
+        DoorDecorator,
         RoomStairsDecorator,
     })
 end
@@ -22,6 +24,7 @@ local function simple()
     return BuilderChain(SimpleBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,
+        DoorDecorator,
         RoomStairsDecorator,
     })
 end
