@@ -32,6 +32,7 @@ end
 local function ca()
     return BuilderChain(CABuilder, { 
         CullUnreachableDecorator,
+        DoorDecorator,
         AreaStairsDecorator,
     })
 end

@@ -32,14 +32,25 @@ end
 function Decorator.decorate(state)
     print('- add doors')
 
-    for _, corridor in ipairs(state.corridors) do
-        if #corridor > 3 then
-            local x, y = unpack(corridor[1])
+    if state.corridors then
+        for _, corridor in ipairs(state.corridors) do
+            if #corridor > 3 then
+                local x, y = unpack(corridor[1])
+                if isDoorPossible(state.map, x, y) then
+                    state.map.set(x, y, Tile.DOOR)                
+                end            
+            end
+        end
+    else
+        for x, y in state.map.iter() do
             if isDoorPossible(state.map, x, y) then
-                state.map.set(x, y, Tile.DOOR)                
+                if oneIn(3) then
+                    state.map.set(x, y, Tile.DOOR)                
+                end
             end
         end
     end
+
 end
 
 return Decorator
