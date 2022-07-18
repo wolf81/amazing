@@ -28,7 +28,7 @@ end
 
 -- return a Dijkstra map, based on the Dijkstra algorithm described here:
 -- https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-local function dijkstra_map(map, x, y, blocked)
+local function dijkstraMap(map, x, y, blocked)
     local map_w, map_h = map.size()
     local start = { x = x, y = y }    
     local d_map = Map(map_w, map_h, mhuge)
@@ -82,5 +82,5 @@ local function dijkstra_map(map, x, y, blocked)
 end
 
 return {
-    map = dijkstra_map
+    map = dijkstraMap
 }

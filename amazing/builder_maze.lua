@@ -12,34 +12,6 @@ local MAX_ROOMS = 30
 local ROOM_SIZE_MIN = 5
 local ROOM_SIZE_MAX = 9
 
-local Direction = {
-    N = 0x1,
-    S = 0x2,
-    E = 0x4,
-    W = 0x8,
-}
-
-local DX = { 
-    [Direction.E] =  1, 
-    [Direction.W] = -1, 
-    [Direction.N] =  0, 
-    [Direction.S] =  0,
-}
-
-local DY = { 
-    [Direction.E] =  0, 
-    [Direction.W] =  0,
-    [Direction.N] = -1,
-    [Direction.S] =  1,
-}
-
-local OPPOSITE = { 
-    [Direction.E] = Direction.W, 
-    [Direction.W] = Direction.E, 
-    [Direction.N] = Direction.S, 
-    [Direction.S] = Direction.N,
-}
-
 local function carve(cx, cy, map)
     local dirs = shuffle({ Direction.N, Direction.S, Direction.E, Direction.W })
     local map_w, map_h = map.size()
@@ -47,12 +19,13 @@ local function carve(cx, cy, map)
     local v = map.get(cx, cy)
 
     for _, dir in ipairs(dirs) do
-        local nx, ny = cx + DX[dir], cy + DY[dir]
+        local heading = Direction.heading[dir]
+        local nx, ny = cx + heading.x, cy + heading.y
         local nv = map.get(nx, ny)
 
         if nx > 0 and nx < map_w and ny > 0 and ny < map_h and nv == 0 then
             map.set(cx, cy, bit.bor(v, dir))
-            map.set(nx, ny, bit.bor(nv, OPPOSITE[dir]))
+            map.set(nx, ny, bit.bor(nv, Direction.opposite[dir]))
             carve(nx, ny, map)
         end
     end

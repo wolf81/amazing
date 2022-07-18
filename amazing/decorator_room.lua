@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 require(PATH .. '.common')
 
+local mfloor, mmin, mabs = math.floor, math.min, math.abs
+
 --[[ ROOM DECORATOR ]]--
 
 local Decorator = DecoratorBase.new()
@@ -14,9 +16,9 @@ end
 
 local function circle(state, room)
     local center_x, center_y = room.center()
-    local r = math.floor(math.min(
-        math.abs(room.x1 - room.x2), 
-        math.abs(room.y1 - room.y2)
+    local r = mfloor(mmin(
+        mabs(room.x1 - room.x2), 
+        mabs(room.y1 - room.y2)
     ) / 2)
 
     for x, y in room.iter() do
