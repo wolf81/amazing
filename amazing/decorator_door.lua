@@ -1,7 +1,6 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local DecoratorBase = require(PATH .. '.decorator_base')
-local Tile = require(PATH .. '.tile')
+require(PATH .. '.common')
 
 local bband = bit.band
 

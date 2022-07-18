@@ -1,7 +1,6 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local BuilderBase = require(PATH .. '.builder_base')
-local DecoratorBase = require(PATH .. '.decorator_base')
+require(PATH .. '.common')
 
 local BuilderChain = {}
 

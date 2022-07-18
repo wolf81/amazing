@@ -1,9 +1,6 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local DecoratorBase = require(PATH .. '.decorator_base')
-local Tile = require(PATH .. '.tile')
-
-require(PATH .. '.util')
+require(PATH .. '.common')
 
 local Decorator = DecoratorBase.new()
 

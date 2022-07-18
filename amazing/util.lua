@@ -1,6 +1,23 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
+local bband, msqrt, mceil, mfloor = bit.band, math.sqrt, math.ceil, math.floor
 local lrandom = love.math.random
+
+-- generate a Dijkstra map based on a map, start position and blocked function
+function dijkstraMap(map, start_x, start_y, blocked_tile)
+    local blocked = function(x, y)
+        return bband(map.get(x, y), blocked_tile) == blocked_tile
+    end
+
+    return Dijkstra.map(map, start_x, start_y, blocked)
+end
+
+-- calculate pythgorean distance between to coordinates
+function getDistance(x1, y1, x2, y2)
+    local dx = x2 - x1
+    local dy = y2 - y1
+    return msqrt((dx ^ 2) + (dy ^ 2)) 
+end
 
 -- return true if a random 1-in-n value is equal to 1:
 -- * oneIn(1): return true 100% of the time
@@ -23,7 +40,7 @@ end
 
 -- round value to nearest integer
 function round(x)
-    return x < 0 and math.ceil(x - 0.5) or math.floor(x + 0.5)
+    return x < 0 and mceil(x - 0.5) or mfloor(x + 0.5)
 end
 
 -- make a table read only
