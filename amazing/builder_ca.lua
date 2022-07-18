@@ -8,6 +8,8 @@ local lrandom = love.math.random
 
 local Builder = BuilderBase.new()
 
+local CA_FLOOR_CHANGE_PCT = 55
+
 function Builder.build(state)
     print('ca')
 
@@ -18,7 +20,7 @@ function Builder.build(state)
     -- add floor tiles to the interior of the map
     for y = 2, map_h - 1 do
         for x = 2, map_w - 1 do
-            if lrandom(1, 100) > 55 then
+            if lrandom(1, 100) > CA_FLOOR_CHANGE_PCT then
                 map.set(x, y, Tile.FLOOR)
             end
         end
