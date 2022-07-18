@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 require(PATH .. '.common')
 
+--[[ STAIRS DECORATOR ]]--
+
 local Decorator = DecoratorBase.new()
 
 function Decorator.decorate(state)

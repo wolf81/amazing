@@ -1,3 +1,5 @@
+--[[ TILE FLAGS ]]--
+
 local Tile = {
     NOTHING     = 0x0,
     BLOCKED     = 0x1,

@@ -1,15 +1,14 @@
---[[ DIJKSTRA ]]--
-
 local PATH = (...):match("(.-)[^%.]+$") 
+
+local PriorityQueue = require(PATH .. '.pqueue')
+local Map = require(PATH .. '.map')
 
 -- not a number: indicates in a Dijkstra map that a tile is not reachable
 local nan = 0/0
 
-local PriorityQueue = require(PATH .. '.pqueue')
-local Map = require(PATH .. '.map')
-local Tile = require(PATH .. '.tile')
-
 local mmin, mhuge = math.min, math.huge
+
+--[[ DIJKSTRA ]]--
 
 -- get neighbor tile positions based on x & y value
 local function getNeighbors(x, y)

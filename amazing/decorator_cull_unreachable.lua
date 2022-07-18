@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 require(PATH .. '.common')
 
+--[[ CULL UNREACHABLE DECORATOR ]]--
+
 local Decorator = DecoratorBase.new()
 
 function Decorator.decorate(state)

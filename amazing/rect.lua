@@ -1,5 +1,7 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
+--[[ RECTANGLE ]]--
+
 local Rect = {}
 
 local function new(x, y, w, h)

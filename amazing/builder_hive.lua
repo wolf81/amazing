@@ -4,11 +4,11 @@ require(PATH .. '.common')
 
 local lrandom = love.math.random
 
-local N_SEEDS_MAX = 64
-
 --[[ VORONOI HIVE BUILDER ]]--
 
 local Builder = BuilderBase.new()
+
+local N_SEEDS_MAX = 64
 
 function Builder.build(state)
     print('hive')

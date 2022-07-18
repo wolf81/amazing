@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 require(PATH .. '.common')
 
+--[[ BUILDER CHAIN ]]--
+
 local BuilderChain = {}
 
 BuilderChain.new = function(map_builder, decorators)

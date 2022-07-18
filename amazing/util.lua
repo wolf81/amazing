@@ -3,6 +3,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 local bband, msqrt, mceil, mfloor = bit.band, math.sqrt, math.ceil, math.floor
 local lrandom = love.math.random
 
+--[[ UTILITY FUNCTIONS ]]--
+
 -- generate a Dijkstra map based on a map, start position and blocked function
 function dijkstraMap(map, start_x, start_y, blocked_tile)
     local blocked = function(x, y)

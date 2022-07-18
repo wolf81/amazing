@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 require(PATH .. '.common')
 
+--[[ ROOM DECORATOR ]]--
+
 local Decorator = DecoratorBase.new()
 
 local function rectangle(state, room)

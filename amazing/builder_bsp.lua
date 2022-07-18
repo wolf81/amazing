@@ -4,13 +4,13 @@ require(PATH .. '.common')
 
 local lrandom = love.math.random
 
-local N_TRIES = 240
-local ROOM_SIZE_MIN = 5
-local ROOM_SIZE_MAX = 10
-
 --[[ BINARY SPACE PARTITION BUILDER ]]--
 
 local Builder = BuilderBase.new()
+
+local N_TRIES = 240
+local ROOM_SIZE_MIN = 5
+local ROOM_SIZE_MAX = 10
 
 -- return a random sub rectangle from a larger rectangle
 local function getRandomSubrect(rect)

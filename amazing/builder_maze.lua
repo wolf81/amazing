@@ -4,9 +4,9 @@ require(PATH .. '.common')
 
 local lrandom = love.math.random
 
-local Builder = BuilderBase.new()
-
 --[[ MAZE BUILDER ]]--
+
+local Builder = BuilderBase.new()
 
 local MAX_ROOMS = 30
 local ROOM_SIZE_MIN = 5

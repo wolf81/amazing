@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 local Tile = require(PATH .. '.tile')
 
+--[[ 2D MAP ]]--
+
 local Map = {}
 Map.__index = Map
 

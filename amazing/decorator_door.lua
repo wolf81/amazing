@@ -4,6 +4,8 @@ require(PATH .. '.common')
 
 local bband = bit.band
 
+--[[ DOOR DECORATOR ]]--
+
 local Decorator = DecoratorBase.new()
 
 local function isDoorPossible(map, x, y)

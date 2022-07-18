@@ -2,6 +2,8 @@ local PATH = (...):match("(.-)[^%.]+$")
 
 require(PATH .. '.common')
 
+--[[ CORRIDOR NEAREST DECORATOR ]]--
+
 local Decorator = DecoratorBase.new()
 
 -- add corridor to map between (x1, y1) and (x2, y2)
