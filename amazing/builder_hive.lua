@@ -10,9 +10,7 @@ local Builder = BuilderBase.new()
 
 local N_SEEDS_MAX = 64
 
-function Builder.build(state)
-    print('hive')
-
+local function hive(state, params)
     local map = Map()
 
     local map_w, map_h = map.size()
@@ -55,6 +53,24 @@ function Builder.build(state)
             end
         end
     end
+
+    return map
+end
+
+function Builder.build(state, params)
+    print('hive')
+
+    local n_floor_tiles, n_floor_tiles_req = 0, nil
+    local map = nil
+    local map_w, map_h = nil
+
+    repeat
+        map = hive(state, params)
+        if not n_floor_tiles_req then
+            map_w, map_h = map.size()
+            n_floor_tiles_req = map_w * map_h * 0.5
+        end
+    until n_floor_tiles < n_floor_tiles_req
 
     -- determine a start position by starting at the center of the map and 
     -- moving left until an empty tile is found
