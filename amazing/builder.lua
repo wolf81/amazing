@@ -107,4 +107,9 @@ return {
     simple = simple,
     bsp = bsp,
     ca = ca,
+    hive = hive,
+    maze = maze,
+    winding_passages = winding_passages,
+    open_area = open_area,
+    open_halls = open_halls,
 }
