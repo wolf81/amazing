@@ -1,7 +1,8 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-local bband, msqrt, mceil, mfloor = bit.band, math.sqrt, math.ceil, math.floor
-local lrandom = love.math.random
+local msqrt, mceil, mfloor = math.sqrt, math.ceil, math.floor
+local mmin, mmax = math.min, math.max
+local bband, lrandom = bit.band, love.math.random
 
 --[[ UTILITY FUNCTIONS ]]--
 
@@ -28,6 +29,11 @@ end
 -- * oneIn(10): return true ~10% of the time
 function oneIn(count)
 	return lrandom(count) == 1
+end
+
+-- clamp value x to a range of min and max, both inclusive
+function clamp(x, min, max)
+	return mmin(mmax(x, min), max)
 end
 
 -- shuffle array
