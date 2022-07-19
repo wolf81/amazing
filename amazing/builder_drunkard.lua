@@ -10,7 +10,7 @@ local Builder = BuilderBase.new()
 
 local INITIAL_DRUNK_LIFE = 600
 
-function Builder.build(state)
+function Builder.build(state, params)
     print('drunkard')
 
     local map = Map()
@@ -21,15 +21,17 @@ function Builder.build(state)
 
     state.start = { x = start_x, y = start_y }
 
-    local n_floor_tiles_req = map_w * map_h / 2
+    local n_floor_tiles_req = map_w * map_h * (params.floor_pct or 0.5)
     local n_diggers_total = 0
     local n_diggers_active = 0
 
     local n_floor_tiles = 1
 
+    local spawn_mode = params.spawn_mode or 'center' -- center|random
+
     while n_floor_tiles < n_floor_tiles_req do
         local did_something = false
-        local drunk_life = INITIAL_DRUNK_LIFE
+        local drunk_life = params.drunk_life or 400
         local drunk_x = start_x
         local drunk_y = start_y
 
@@ -62,8 +64,10 @@ function Builder.build(state)
             end
         end
 
-        start_x = lrandom(2, map_w - 1)
-        start_y = lrandom(2, map_h - 1)
+        if spawn_mode == 'random' then
+            start_x = lrandom(2, map_w - 1)
+            start_y = lrandom(2, map_h - 1)
+        end
     end
 
     state.map = map

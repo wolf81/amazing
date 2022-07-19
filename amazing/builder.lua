@@ -13,6 +13,8 @@ local StairsDecorator = require(PATH .. '.decorator_stairs')
 local NearestCorridorDecorator = require(PATH .. '.decorator_corridor_nearest')
 local DoorDecorator = require(PATH .. '.decorator_door')
 
+local lrandom = love.math.random
+
 local function bsp()
     return BuilderChain(BSPBuilder, { 
         RoomDecorator,
@@ -54,17 +56,50 @@ local function hive()
     })
 end
 
-local function drunkard()
+local function open_halls()
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairsDecorator,
+    }, {
+        ['drunk_life'] = 400,
+        ['spawn_mode'] = 'center',
+        ['floor_pct']  = 0.5,
     })
 end
 
+local function open_area()
+    return BuilderChain(DrunkardBuilder, { 
+        CullUnreachableDecorator,
+        -- DoorDecorator,
+        StairsDecorator,
+    }, {
+        ['drunk_life'] = 400,
+        ['spawn_mode'] = 'random',
+        ['floor_pct']  = 0.5,
+    })
+end
+
+local function winding_passages()
+    return BuilderChain(DrunkardBuilder, { 
+        CullUnreachableDecorator,
+        -- DoorDecorator,
+        StairsDecorator,
+    }, {
+        ['drunk_life'] = 100,
+        ['spawn_mode'] = 'random',
+        ['floor_pct']  = 0.4,
+    })
+end
+
+local function drunkard()
+    local builders = { open_area, open_halls, winding_passages }
+    return builders[lrandom(#builders)]()
+end
+
 local function random()
-    local builders = { maze(), simple(), bsp(), ca(), hive(), drunkard() }
-    return builders[love.math.random(#builders)]
+    local builders = { maze, simple, bsp, ca, hive, drunkard }
+    return builders[love.math.random(#builders)]()
 end
 
 return {

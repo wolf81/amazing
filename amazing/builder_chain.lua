@@ -6,7 +6,7 @@ require(PATH .. '.common')
 
 local BuilderChain = {}
 
-BuilderChain.new = function(map_builder, decorators)
+BuilderChain.new = function(map_builder, decorators, params)
     assert(map_builder ~= nil, 'a map builder must be defined')
     assert(getmetatable(map_builder) == BuilderBase, 'map builder should be of type BuilderBase')
 
@@ -22,10 +22,10 @@ BuilderChain.new = function(map_builder, decorators)
     }
 
     local build = function()
-        map_builder.build(state)
+        map_builder.build(state, params or {})
 
         for _, decorator in ipairs(decorators or {}) do
-            decorator.decorate(state)
+            decorator.decorate(state, params or {})
         end
 
         return state.map
