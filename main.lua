@@ -13,10 +13,11 @@ local random_tbl = amazing.RandomTable({
     ['g'] = 70, -- goblin
     ['o'] = 30, -- orc
     ['b'] = 15, -- bandit
-    ['O'] = 5,  -- ogre
-    ['s'] = 3,  -- scroll
-    ['a'] = 3,  -- armor
-    ['w'] = 3,  -- weapon
+    ['p'] = 5,  -- ogre
+    ['$'] = 3,  -- gold
+    ['!'] = 2,  -- scroll
+    ['A'] = 3,  -- armor
+    ['W'] = 3,  -- weapon
     ['['] = 1,  -- shield
 })
 
