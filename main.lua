@@ -17,7 +17,7 @@ local random_tbl = amazing.RandomTable({
     ['s'] = 3,  -- scroll
     ['a'] = 3,  -- armor
     ['w'] = 3,  -- weapon
-    ['s'] = 1,  -- shield
+    ['['] = 1,  -- shield
 })
 
 local function generate()
