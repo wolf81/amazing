@@ -99,6 +99,12 @@ local function tryMove(x, y)
     player.x = x
     player.y = y
 
+    for idx, spawn in ipairs(spawns) do
+        if spawn.x == player.x and spawn.y == player.y then
+            table.remove(spawns, idx)
+        end
+    end
+
     return true
 end
 
