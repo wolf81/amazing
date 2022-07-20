@@ -18,16 +18,30 @@ local function new(tbl)
     for id, weight in pairs(tbl or {}) do
         assert(type(weight) == 'number', 'the weight value should be a number')
 
+        if weight > 0 then
+            self.entries[#self.entries + 1] = { id = id, weight = weight }
+            self.total = self.total + weight
+        end
+    end
+
+    local add = function(id, weight)
+        for _, entry in ipairs(self.entries) do
+            if entry.id == id then
+                error('already added: ' .. id)
+            end
+        end
+
         self.entries[#self.entries + 1] = { id = id, weight = weight }
         self.total = self.total + weight
     end
 
-    local add = function(id, weight)
-        -- body
-    end
-
     local remove = function(id)
-        -- body
+        for idx, entry in ipairs(self.entries) do
+            if entry.id == id then
+                self.total = self.total - entry.weight
+                table.remove(self.entries, idx)
+            end
+        end
     end
 
     local roll = function()
