@@ -6,6 +6,32 @@ require(PATH .. '.common')
 
 local BuilderChain = {}
 
+local function generateMap(map_builder, decorators, params)
+    local state = {
+        map         = nil, -- a 2D grid containing various tiles
+        rooms       = nil, -- a list of rooms, if appropriate for map type
+        corridors   = nil, -- a list of corridors, if appropriate for map type
+        start       = nil, -- a start position for a player
+        spawns      = {},  -- a list of spawns if a spawn table was provided
+    }
+
+    map_builder.build(state, params or {})
+
+    for _, decorator in ipairs(decorators or {}) do
+        decorator.decorate(state, params or {})
+    end
+
+    local map_w, map_h = state.map.size()
+    local size = map_w * map_h
+    for _, _, tile in state.map.iter() do
+        if bit.band(tile, Tile.WALL) == Tile.WALL then
+            size = size - 1
+        end
+    end
+
+    return state, size / (map_w * map_h)
+end
+
 BuilderChain.new = function(map_builder, decorators, params)
     assert(map_builder ~= nil, 'a map builder must be defined')
     assert(getmetatable(map_builder) == BuilderBase, 'map builder should be of type BuilderBase')
@@ -16,21 +42,15 @@ BuilderChain.new = function(map_builder, decorators, params)
         assert(getmetatable(decorator) == DecoratorBase, 'decorator should be of type DecoratorBase') 
     end
 
-    local state = {
-        map         = nil, -- a 2D grid containing various tiles
-        rooms       = nil, -- a list of rooms, if appropriate for map type
-        corridors   = nil, -- a list of corridors, if appropriate for map type
-        start       = nil, -- a start position for a player
-        spawns      = {},  -- a list of spawns if a spawn table was provided
-    }
-
     local build = function()
-        map_builder.build(state, params or {})
+        local state, cover = nil, nil
 
-        for _, decorator in ipairs(decorators or {}) do
-            decorator.decorate(state, params or {})
-        end
+        -- ensure any map covers 25% of the area
+        repeat 
+            state, cover = generateMap(map_builder, decorators, params)
+        until cover >= 0.25
 
+        -- add spawns based on spawn table
         if params.random_table ~= nil then
             state.spawns = Spawner(params.random_table).spawn(state)
         end

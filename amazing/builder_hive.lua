@@ -37,7 +37,6 @@ local function hive(state, params)
         v_membership.set(x, y, v_distance:peek())
     end
 
-    local size = 0
     for y = 2, map_h - 1 do
         for x = 2, map_w - 1 do
             local neighbors = 0
@@ -49,7 +48,6 @@ local function hive(state, params)
 
             if neighbors < 2 then
                 map.set(x, y, Tile.FLOOR)
-                size = size + 1
             end
         end
     end
@@ -60,17 +58,9 @@ end
 function Builder.build(state, params)
     print('hive')
 
-    local n_floor_tiles, n_floor_tiles_req = 0, nil
-    local map = nil
-    local map_w, map_h = nil
-
-    repeat
-        map = hive(state, params)
-        if not n_floor_tiles_req then
-            map_w, map_h = map.size()
-            n_floor_tiles_req = map_w * map_h * 0.5
-        end
-    until n_floor_tiles < n_floor_tiles_req
+    local n_floor_tiles, size_min = 0, nil
+    local map = hive(state, params)
+    local map_w, map_h = map.size()
 
     -- determine a start position by starting at the center of the map and 
     -- moving left until an empty tile is found
