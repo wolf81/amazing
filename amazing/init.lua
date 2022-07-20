@@ -11,5 +11,6 @@ local M = {
 M.builder = require(PATH .. '.builder')
 M.Tile = require(PATH .. '.tile')
 M.Map = require(PATH .. '.map')
+M.RandomTable = require(PATH .. '.random_table')
 
 return M

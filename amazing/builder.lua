@@ -16,6 +16,8 @@ local DoorDecorator = require(PATH .. '.decorator_door')
 local lrandom = love.math.random
 
 local function bsp()
+    print('bsp')
+    
     return BuilderChain(BSPBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,

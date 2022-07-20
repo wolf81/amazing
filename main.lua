@@ -9,6 +9,15 @@ local map = nil
 local dx, dy = 0, 0
 local step_delay = 0
 
+local random_tbl = amazing.RandomTable({ 
+    ['g'] = 70, -- goblin
+    ['o'] = 20, -- orc
+    ['s'] = 10, -- scroll
+    ['a'] = 3,  -- armor
+    ['w'] = 3,  -- weapon
+    ['s'] = 1,  -- shield
+})
+
 local function generate()
     local builder = amazing.builder.random()
 
@@ -54,7 +63,7 @@ local function generate()
 end
 
 function love.load(args)
-    love.math.setRandomSeed(1)
+    -- love.math.setRandomSeed(1)
     generate()
 end
 
