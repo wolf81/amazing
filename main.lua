@@ -11,17 +11,19 @@ local step_delay = 0
 
 local random_tbl = amazing.RandomTable({ 
     ['g'] = 70, -- goblin
-    ['o'] = 20, -- orc
-    ['s'] = 10, -- scroll
+    ['o'] = 30, -- orc
+    ['b'] = 15, -- bandit
+    ['O'] = 5,  -- ogre
+    ['s'] = 3,  -- scroll
     ['a'] = 3,  -- armor
     ['w'] = 3,  -- weapon
     ['s'] = 1,  -- shield
 })
 
 local function generate()
-    local builder = amazing.builder.random()
+    local builder = amazing.builder.random(random_tbl)
 
-    map, player = builder.build({
+    map, spawns = builder.build({
         dungeon_size    = 'medium',
         dungeon_layout  = 'square',
         room_size       = 'small',
@@ -63,13 +65,20 @@ local function generate()
 end
 
 function love.load(args)
-    -- love.math.setRandomSeed(1)
+    love.math.setRandomSeed(1)
     generate()
 end
 
 function love.draw()
     love.graphics.setColor(1.0, 1.0, 1.0)
     love.graphics.draw(canvas)
+
+    for _, spawn in ipairs(spawns) do
+        love.graphics.setColor(0.0, 0.0, 0.0)
+        love.graphics.rectangle('fill', spawn.x * 12, spawn.y * 12, 15, 15)
+        love.graphics.setColor(0.0, 0.6, 0.6)
+        love.graphics.print(spawn.id, spawn.x * 12, spawn.y * 12)                        
+    end
 
     if player then
         love.graphics.setColor(0.0, 0.0, 0.0)

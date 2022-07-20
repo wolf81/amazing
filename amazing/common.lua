@@ -8,6 +8,9 @@ Direction = require(PATH .. '.direction')
 BuilderBase = require(PATH .. '.builder_base')
 DecoratorBase = require(PATH .. '.decorator_base')
 
+RandomTable = require(PATH .. '.random_table')
+Spawner = require(PATH .. '.spawner')
+
 PriorityQueue = require(PATH .. '.pqueue')
 Dijkstra = require(PATH .. '.dijkstra')
 

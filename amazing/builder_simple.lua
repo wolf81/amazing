@@ -12,7 +12,7 @@ local MAX_ROOMS = 30
 local ROOM_SIZE_MIN = 5
 local ROOM_SIZE_MAX = 9
 
-function Builder.build(state)
+function Builder.build(state, params)
     print('simple')
 
     local map = Map()

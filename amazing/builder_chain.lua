@@ -10,15 +10,18 @@ BuilderChain.new = function(map_builder, decorators, params)
     assert(map_builder ~= nil, 'a map builder must be defined')
     assert(getmetatable(map_builder) == BuilderBase, 'map builder should be of type BuilderBase')
 
+    local params = params or {}
+    
     for _, decorator in ipairs(decorators or {}) do
         assert(getmetatable(decorator) == DecoratorBase, 'decorator should be of type DecoratorBase') 
     end
 
     local state = {
-        map = nil,
-        rooms = nil,
-        start = nil,
-        corridors = nil,
+        map         = nil, -- a 2D grid containing various tiles
+        rooms       = nil, -- a list of rooms, if appropriate for map type
+        corridors   = nil, -- a list of corridors, if appropriate for map type
+        start       = nil, -- a start position for a player
+        spawns      = {},  -- a list of spawns if a spawn table was provided
     }
 
     local build = function()
@@ -28,7 +31,11 @@ BuilderChain.new = function(map_builder, decorators, params)
             decorator.decorate(state, params or {})
         end
 
-        return state.map
+        if params.random_table ~= nil then
+            state.spawns = Spawner(params.random_table).spawn(state)
+        end
+
+        return state.map, state.spawns
     end
 
     return {

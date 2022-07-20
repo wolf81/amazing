@@ -4,7 +4,7 @@ local RandomTable = {}
 
 -- a random table contains a list of ids and weights, e.g.:
 --  { [1]        = 5, [2]          = 15, ... } 
--- ...or...
+--    -or-
 --  { ['zombie'] = 5, ['skeleton'] = 15, ... }
 local function new(tbl)
     local tbl = tbl or {}
@@ -56,6 +56,8 @@ local function new(tbl)
     }, RandomTable)
 end
 
-return setmetatable(RandomTable, 
+setmetatable(RandomTable, 
     { __call = function(_, ...) return new(...) end}
 )
+
+return RandomTable

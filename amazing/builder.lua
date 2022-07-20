@@ -15,93 +15,104 @@ local DoorDecorator = require(PATH .. '.decorator_door')
 
 local lrandom = love.math.random
 
-local function bsp()
-    print('bsp')
-    
+local function bsp(random_table)
     return BuilderChain(BSPBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
         StairsDecorator,
+    }, {
+        ['random_table'] = random_table,
     })
 end
 
-local function simple()
+local function simple(random_table)
     return BuilderChain(SimpleBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
         StairsDecorator,
-    })
+    }, {
+        ['random_table'] = random_table,
+    })    
 end
 
-local function ca()
+local function ca(random_table)
     return BuilderChain(CABuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
         StairsDecorator,
+    }, {
+        ['random_table'] = random_table,
     })
 end
 
-local function maze()
+local function maze(random_table)
     return BuilderChain(MazeBuilder, { 
         CullUnreachableDecorator,
         StairsDecorator,
+    }, {
+        ['random_table'] = random_table,
     })
 end
 
-local function hive()
+local function hive(random_table)
     return BuilderChain(HiveBuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
         StairsDecorator,
+    }, {
+        ['random_table'] = random_table,        
     })
 end
 
-local function open_halls()
+local function open_halls(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairsDecorator,
     }, {
+        ['random_table'] = random_table,
         ['drunk_life'] = 400,
         ['spawn_mode'] = 'center',
         ['floor_pct']  = 0.5,
     })
 end
 
-local function open_area()
+local function open_area(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairsDecorator,
     }, {
+        ['random_table'] = random_table,
         ['drunk_life'] = 400,
         ['spawn_mode'] = 'random',
         ['floor_pct']  = 0.5,
     })
 end
 
-local function winding_passages()
+local function winding_passages(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairsDecorator,
     }, {
+        ['random_table'] = random_table,
         ['drunk_life'] = 100,
         ['spawn_mode'] = 'random',
         ['floor_pct']  = 0.4,
     })
 end
 
-local function drunkard()
+local function drunkard(random_table)
     local builders = { open_area, open_halls, winding_passages }
-    return builders[lrandom(#builders)]()
+    return builders[lrandom(#builders)](random_table)
 end
 
-local function random()
+local function random(random_table)
     local builders = { maze, simple, bsp, ca, hive, drunkard }
-    return builders[love.math.random(#builders)]()
+    return builders[love.math.random(#builders)](random_table)
 end
 
 return {
