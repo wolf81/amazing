@@ -1,6 +1,7 @@
 local lrandom = love.math.random
 
 local RandomTable = {}
+RandomTable.__index = RandomTable
 
 -- a random table contains a list of ids and weights, e.g.:
 --  { [1]        = 5, [2]          = 15, ... } 
@@ -70,8 +71,6 @@ local function new(tbl)
     }, RandomTable)
 end
 
-setmetatable(RandomTable, 
-    { __call = function(_, ...) return new(...) end}
+return setmetatable(RandomTable, 
+    { __call = function(_, ...) return new(...) end }
 )
-
-return RandomTable

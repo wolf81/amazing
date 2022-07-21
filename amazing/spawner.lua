@@ -64,9 +64,9 @@ end
 
 local function new(random_table)
     assert(random_table ~= nil, 'a random table is required')
-    assert(getmetatable(random_table) == RandomTable, 
-        'a random table should be of type RandomTable'
-    )
+    -- assert(getmetatable(random_table) == RandomTable, 
+    --     'a random table should be of type RandomTable'
+    -- )
 
     local spawn = function(state)
         if state.rooms then

@@ -1,7 +1,5 @@
 local PATH = (...):gsub('%.init$', '')
 
-require(PATH .. '.common')
-
 local M = {
     _VERSION = "0.1.0",
     _DESCRIPTION = "A random dungeon generator",
@@ -10,8 +8,8 @@ local M = {
 }
 
 M.builder = require(PATH .. '.builder')
-M.Tile = Tile
-M.Map = Map
-M.RandomTable = RandomTable
+M.Tile = require(PATH .. '.tile')
+M.Map = require(PATH .. '.map')
+M.RandomTable = require(PATH .. '.random_table')
 
 return M
