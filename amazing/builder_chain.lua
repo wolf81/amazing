@@ -1,6 +1,9 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.common')
+local Tile = require(PATH .. '.tile')
+local BuilderBase = require(PATH .. '.builder_base')
+local DecoratorBase = require(PATH .. '.decorator_base')
+local Spawner = require(PATH .. '.spawner')
 
 --[[ BUILDER CHAIN ]]--
 

@@ -1,4 +1,7 @@
 local PATH = (...):match("(.-)[^%.]+$") 
+local Util = require(PATH .. '.util')
+
+local round, readOnly = Util.round, Util.readOnly
 
 --[[ RECTANGLE ]]--
 

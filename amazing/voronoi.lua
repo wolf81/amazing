@@ -1,7 +1,10 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.pqueue')
+local Map = require(PATH .. '.map')
+local PriorityQueue = require(PATH .. '.pqueue')
+local Util = require(PATH .. '.util')
 
+local getDistance = Util.getDistance
 local lrandom = love.math.random
 local blshift = bit.lshift
 

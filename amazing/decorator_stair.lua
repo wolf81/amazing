@@ -1,6 +1,10 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.common')
+local Tile = require(PATH .. '.tile')
+local DecoratorBase = require(PATH .. '.decorator_base')
+local Util = require(PATH .. '.util')
+
+local dijkstraMap, getDistance = Util.dijkstraMap, Util.getDistance
 
 --[[ STAIRS DECORATOR ]]--
 

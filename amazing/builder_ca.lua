@@ -1,6 +1,8 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.common')
+local Tile = require(PATH .. '.tile')
+local Map = require(PATH .. '.map')
+local BuilderBase = require(PATH .. '.builder_base')
 
 local lrandom = love.math.random
 

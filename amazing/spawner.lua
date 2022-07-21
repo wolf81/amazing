@@ -1,5 +1,7 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
+local Tile = require(PATH .. '.tile')
+
 local voronoi = require(PATH .. '.voronoi')
 local lrandom = love.math.random
 

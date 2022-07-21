@@ -1,7 +1,10 @@
 local PATH = (...):match("(.-)[^%.]+$") 
 
-require(PATH .. '.common')
+local Tile = require(PATH .. '.tile')
+local DecoratorBase = require(PATH .. '.decorator_base')
+local Util = require(PATH .. '.util')
 
+local oneIn, getDistance = Util.oneIn, Util.getDistance
 local mfloor, mmin, mabs = math.floor, math.min, math.abs
 
 --[[ ROOM DECORATOR ]]--
