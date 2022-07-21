@@ -22,7 +22,7 @@ local function bsp(random_table)
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
     })
@@ -33,7 +33,7 @@ local function simple(random_table)
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
     })    
@@ -43,7 +43,7 @@ local function ca(random_table)
     return BuilderChain(CABuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
     })
@@ -52,7 +52,7 @@ end
 local function maze(random_table)
     return BuilderChain(MazeBuilder, { 
         CullUnreachableDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
     })
@@ -62,7 +62,7 @@ local function hive(random_table)
     return BuilderChain(HiveBuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,        
     })
@@ -72,7 +72,7 @@ local function open_halls(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
         ['drunk_life'] = 400,
@@ -85,7 +85,7 @@ local function open_area(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
         ['drunk_life'] = 400,
@@ -98,7 +98,7 @@ local function winding_passages(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
-        StairsDecorator,
+        StairDecorator,
     }, {
         ['random_table'] = random_table,
         ['drunk_life'] = 100,
