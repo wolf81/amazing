@@ -7,6 +7,7 @@ local BSPBuilder = require(PATH .. '.builder_bsp')
 local CABuilder = require(PATH .. '.builder_ca')
 local MazeBuilder = require(PATH .. '.builder_maze')
 local HiveBuilder = require(PATH .. '.builder_hive')
+local PrefabBuilder = require(PATH .. '.builder_prefab')
 local DrunkardBuilder = require(PATH .. '.builder_drunkard')
 
 local RoomDecorator = require(PATH .. '.decorator_room')
@@ -68,6 +69,17 @@ local function hive(random_table)
     })
 end
 
+local function prefab(random_table, map)
+    return BuilderChain(PrefabBuilder, { 
+        -- CullUnreachableDecorator,
+        -- DoorDecorator,
+        -- StairDecorator,
+    }, {
+        ['random_table'] = random_table,
+        ['map'] = map,
+    })    
+end
+
 local function open_halls(random_table)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
@@ -119,12 +131,13 @@ end
 
 return {
     random = random,
-    simple = simple,
-    bsp = bsp,
     ca = ca,
+    bsp = bsp,
     hive = hive,
     maze = maze,
-    winding_passages = winding_passages,
+    simple = simple,
+    prefab = prefab,
     open_area = open_area,
     open_halls = open_halls,
+    winding_passages = winding_passages,
 }

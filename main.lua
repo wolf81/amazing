@@ -21,8 +21,23 @@ local random_tbl = amazing.RandomTable({
     ['['] = 1,  -- shield
 })
 
+local prefab = [[
+##########################################
+#           #           #                #
+#           +           #                #
+#  >        #           #                #
+#           #     <     #                #
+#           #           #                #
+#           #    ###    #                #
+#      #+####     #     #                #
+########          #     #                #
+#           #     +     #                #
+#           #     #     #                #
+##########################################
+]]
+
 local function generate()
-    local builder = amazing.builder.random(random_tbl)
+    local builder = amazing.builder.prefab(random_tbl, prefab)
 
     map, spawns = builder.build({
         dungeon_size    = 'medium',
