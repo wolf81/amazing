@@ -28,15 +28,15 @@ end
 
 -- return a Dijkstra map, based on the Dijkstra algorithm described here:
 -- https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-local function dijkstraMap(map, x, y, blocked)
-    local map_w, map_h = map.size()
+local function map(tile_map, x, y, blocked)
+    local map_w, map_h = tile_map.size()
     local start = { x = x, y = y }    
     local d_map = Map(map_w, map_h, mhuge)
     local unvisited = PriorityQueue()
 
     -- create an empty Dijkstra map, all tile distances are set to math.huge
     -- or nan if unreachable
-    for x, y, _ in map.iter() do
+    for x, y, _ in tile_map.iter() do
         if blocked(x, y) then
             d_map.set(x, y, nan)
         else
@@ -82,5 +82,5 @@ local function dijkstraMap(map, x, y, blocked)
 end
 
 return {
-    map = dijkstraMap
+    map = map,
 }
