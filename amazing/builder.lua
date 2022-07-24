@@ -81,6 +81,7 @@ end
 
 local function open_halls(params)
     return BuilderChain(DrunkardBuilder, { 
+        WallFixDecorator,
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairDecorator,
@@ -94,6 +95,7 @@ end
 
 local function open_area(params)
     return BuilderChain(DrunkardBuilder, { 
+        WallFixDecorator,
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairDecorator,
@@ -107,6 +109,7 @@ end
 
 local function winding_passages(params)
     return BuilderChain(DrunkardBuilder, { 
+        WallFixDecorator,
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairDecorator,
