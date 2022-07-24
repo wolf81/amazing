@@ -25,7 +25,7 @@ local random_tbl = amazing.RandomTable({
     ['['] = 1,  -- shield
 })
 
-local prefab = [[
+local prefab_map = [[
 ########################################            
 #           +    #    #                ####         
 #           #    #    #                   ###       
@@ -42,15 +42,19 @@ local prefab = [[
 ]]
 
 local function generatePrefab()
-    return amazing.builder.prefab(random_tbl, prefab)
+    return amazing.builder.prefab({
+        ['map'] = prefab_map,
+    })
 end
 
 local function generateRandom()
-    return amazing.builder.random(random_tbl)
+    return amazing.builder.random({
+        ['random_table'] = random_tbl,
+    })
 end
 
 local function generate()
-    local builder = oneIn(2) and generateRandom() or generatePrefab()
+    local builder = oneIn(10) and generatePrefab() or generateRandom()
 
     map, player, spawns = builder.build()
 

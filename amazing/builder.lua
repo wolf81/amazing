@@ -18,115 +18,115 @@ local NearestCorridorDecorator = require(PATH .. '.decorator_corridor_nearest')
 
 local lrandom = love.math.random
 
-local function bsp(random_table)
+local function bsp(params)
     return BuilderChain(BSPBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
     })
 end
 
-local function simple(random_table)
+local function simple(params)
     return BuilderChain(SimpleBuilder, { 
         RoomDecorator,
         NearestCorridorDecorator,
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
     })    
 end
 
-local function ca(random_table)
+local function ca(params)
     return BuilderChain(CABuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
     })
 end
 
-local function maze(random_table)
+local function maze(params)
     return BuilderChain(MazeBuilder, { 
         CullUnreachableDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
     })
 end
 
-local function hive(random_table)
+local function hive(params)
     return BuilderChain(HiveBuilder, { 
         CullUnreachableDecorator,
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,        
+        ['random_table'] = params.random_table,        
     })
 end
 
-local function prefab(random_table, map)
+local function prefab(params)
     return BuilderChain(PrefabBuilder, { 
         -- CullUnreachableDecorator,
         -- DoorDecorator,
         -- StairDecorator,
     }, {
-        ['random_table'] = random_table,
-        ['map'] = map,
+        ['random_table'] = params.random_table,
+        ['map'] = params.map, -- required!
     })    
 end
 
-local function open_halls(random_table)
+local function open_halls(params)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
         ['drunk_life'] = 400,
         ['spawn_mode'] = 'center',
         ['floor_pct']  = 0.5,
     })
 end
 
-local function open_area(random_table)
+local function open_area(params)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
         ['drunk_life'] = 400,
         ['spawn_mode'] = 'random',
         ['floor_pct']  = 0.5,
     })
 end
 
-local function winding_passages(random_table)
+local function winding_passages(params)
     return BuilderChain(DrunkardBuilder, { 
         CullUnreachableDecorator,
         -- DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = random_table,
+        ['random_table'] = params.random_table,
         ['drunk_life'] = 100,
         ['spawn_mode'] = 'random',
         ['floor_pct']  = 0.4,
     })
 end
 
-local function drunkard(random_table)
+local function drunkard(params)
     local builders = { open_area, open_halls, winding_passages }
-    return builders[lrandom(#builders)](random_table)
+    return builders[lrandom(#builders)](params)
 end
 
-local function random(random_table)
+local function random(params)
     local builders = { maze, simple, bsp, ca, hive, drunkard }
-    return builders[love.math.random(#builders)](random_table)
+    return builders[love.math.random(#builders)](params)
 end
 
 return {
