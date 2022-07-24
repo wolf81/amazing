@@ -15,6 +15,7 @@ local DoorDecorator = require(PATH .. '.decorator_door')
 local StairDecorator = require(PATH .. '.decorator_stair')
 local CullUnreachableDecorator = require(PATH .. '.decorator_cull_unreachable')
 local NearestCorridorDecorator = require(PATH .. '.decorator_corridor_nearest')
+local WallFixDecorator = require(PATH .. '.decorator_fix_wall')
 
 local lrandom = love.math.random
 
@@ -61,6 +62,7 @@ end
 
 local function hive(params)
     return BuilderChain(HiveBuilder, { 
+        WallFixDecorator,
         CullUnreachableDecorator,
         DoorDecorator,
         StairDecorator,
@@ -70,11 +72,7 @@ local function hive(params)
 end
 
 local function prefab(params)
-    return BuilderChain(PrefabBuilder, { 
-        -- CullUnreachableDecorator,
-        -- DoorDecorator,
-        -- StairDecorator,
-    }, {
+    return BuilderChain(PrefabBuilder, {}, {
         ['random_table'] = params.random_table,
         ['map'] = params.map, -- required!
     })    
