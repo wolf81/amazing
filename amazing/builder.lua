@@ -26,7 +26,7 @@ local function bsp(params)
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
     })
 end
 
@@ -37,7 +37,7 @@ local function simple(params)
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
     })    
 end
 
@@ -48,7 +48,7 @@ local function ca(params)
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
     })
 end
 
@@ -57,7 +57,7 @@ local function maze(params)
         CullUnreachableDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
     })
 end
 
@@ -68,13 +68,13 @@ local function hive(params)
         DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,        
+        ['spawn_table'] = params.spawn_table,        
     })
 end
 
 local function prefab(params)
     return BuilderChain(PrefabBuilder, {}, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
         ['map'] = params.map, -- required!
     })    
 end
@@ -86,7 +86,7 @@ local function open_halls(params)
         -- DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
         ['drunk_life'] = 400,
         ['spawn_mode'] = 'center',
         ['floor_pct']  = 0.5,
@@ -100,7 +100,7 @@ local function open_area(params)
         -- DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
         ['drunk_life'] = 400,
         ['spawn_mode'] = 'random',
         ['floor_pct']  = 0.5,
@@ -114,7 +114,7 @@ local function winding_passages(params)
         -- DoorDecorator,
         StairDecorator,
     }, {
-        ['random_table'] = params.random_table,
+        ['spawn_table'] = params.spawn_table,
         ['drunk_life'] = 100,
         ['spawn_mode'] = 'random',
         ['floor_pct']  = 0.4,

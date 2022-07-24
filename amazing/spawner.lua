@@ -9,20 +9,20 @@ local Spawner = {}
 
 local BLOCKED_MASK = bit.bor(Tile.STAIR_DN, Tile.STAIR_UP, Tile.WALL, Tile.DOOR)
 
-local function spawnRegions(regions, random_table)
+local function spawnRegions(regions, spawn_table)
     local spawns = {}
 
     for _, region in pairs(regions) do
         local tile = region[lrandom(#region)]
 
-        local spawn_id = random_table.roll()
+        local spawn_id = spawn_table.roll()
         spawns[#spawns + 1] = { x = tile.x, y = tile.y, id = spawn_id }
     end
 
     return spawns
 end
 
-local function spawnRooms(state, random_table)
+local function spawnRooms(state, spawn_table)
     local regions = {}
 
     for id, room in ipairs(state.rooms) do
@@ -41,10 +41,10 @@ local function spawnRooms(state, random_table)
         ::continue::
     end
 
-    return spawnRegions(regions, random_table)
+    return spawnRegions(regions, spawn_table)
 end
 
-local function spawnAreas(state, random_table)
+local function spawnAreas(state, spawn_table)
     local regions = {}
 
     local v_membership = voronoi(state.map, 48)
@@ -61,20 +61,20 @@ local function spawnAreas(state, random_table)
         ::continue::
     end
 
-    return spawnRegions(regions, random_table)
+    return spawnRegions(regions, spawn_table)
 end
 
-local function new(random_table)
-    assert(random_table ~= nil, 'a random table is required')
-    -- assert(getmetatable(random_table) == RandomTable, 
+local function new(spawn_table)
+    assert(spawn_table ~= nil, 'a spawn table is required')
+    -- assert(getmetatable(spawn_table) == RandomTable, 
     --     'a random table should be of type RandomTable'
     -- )
 
     local spawn = function(state)
         if state.rooms then
-            return spawnRooms(state, random_table)
+            return spawnRooms(state, spawn_table)
         else
-            return spawnAreas(state, random_table)
+            return spawnAreas(state, spawn_table)
         end
 
         return {}

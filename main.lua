@@ -13,7 +13,7 @@ local function oneIn(count)
     return love.math.random(count) == 1
 end
 
-local random_tbl = amazing.RandomTable({ 
+local spawn_table = amazing.RandomTable({ 
     ['g'] = 70, -- goblin
     ['o'] = 30, -- orc
     ['b'] = 15, -- bandit
@@ -49,7 +49,7 @@ end
 
 local function generateRandom()
     return amazing.builder.random({
-        ['random_table'] = random_tbl,
+        ['spawn_table'] = spawn_table,
     })
 end
 

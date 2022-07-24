@@ -54,8 +54,8 @@ BuilderChain.new = function(map_builder, decorators, params)
         until cover >= 0.25
 
         -- add spawns based on spawn table
-        if params.random_table ~= nil then
-            state.spawns = Spawner(params.random_table).spawn(state)
+        if params.spawn_table ~= nil then
+            state.spawns = Spawner(params.spawn_table).spawn(state)
         end
 
         return state.map, state.start, state.spawns
