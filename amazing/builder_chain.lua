@@ -58,7 +58,7 @@ BuilderChain.new = function(map_builder, decorators, params)
             state.spawns = Spawner(params.random_table).spawn(state)
         end
 
-        return state.map, state.spawns
+        return state.map, state.start, state.spawns
     end
 
     return {

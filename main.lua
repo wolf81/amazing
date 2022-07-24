@@ -9,6 +9,10 @@ local map = nil
 local dx, dy = 0, 0
 local step_delay = 0
 
+local function oneIn(count)
+    return love.math.random(count) == 1
+end
+
 local random_tbl = amazing.RandomTable({ 
     ['g'] = 70, -- goblin
     ['o'] = 30, -- orc
@@ -22,30 +26,33 @@ local random_tbl = amazing.RandomTable({
 })
 
 local prefab = [[
-##########################################
-#           #           #                #
-#           +           #                #
-#  >        #           #                #
-#           #     <     #                #
-#           #           #                #
-#           #    ###    #                #
-#      #+####     #     #                #
-########          #     #                #
-#           #     +     #                #
-#           #     #     #                #
-##########################################
+########################################            
+#           +    #    #                ####         
+#           #    #    #                   ###       
+#           #    #    ###                   ###     
+###+#########    #                             ##   
+#           #    #    ###              ##       ##  
+#           #    #    #                # >       #  
+#           #    #    ###              ##       ##  
+########+####    #                             ##   
+#           #    #    ###                   ###     
++@          #    #    #                   ###       
+#           #    +    #                ####         
+########################################            
 ]]
 
-local function generate()
-    local builder = amazing.builder.prefab(random_tbl, prefab)
+local function generatePrefab()
+    return amazing.builder.prefab(random_tbl, prefab)
+end
 
-    map, spawns = builder.build({
-        dungeon_size    = 'medium',
-        dungeon_layout  = 'square',
-        room_size       = 'small',
-        room_layout     = 'dense',
-        corridor_layout = 'straight',
-    })
+local function generateRandom()
+    return amazing.builder.random(random_tbl)
+end
+
+local function generate()
+    local builder = oneIn(2) and generateRandom() or generatePrefab()
+
+    map, player, spawns = builder.build()
 
     love.graphics.setFont(love.graphics.newFont(14))
     love.window.setTitle('Amazing')
@@ -67,7 +74,6 @@ local function generate()
             s = '>'
         elseif bit.band(v, Tile.STAIR_UP) ~= 0 then
             s = '<'
-            player = { x = x, y = y }
         end
 
         love.graphics.setColor(c)
