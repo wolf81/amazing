@@ -16,8 +16,8 @@ local char_to_tile = {
     ['<'] = Tile.STAIR_UP,
     ['>'] = Tile.STAIR_DN,
     ['+'] = Tile.DOOR,
-    ['@'] = Tile.FLOOR,
-    ['%'] = Tile.FLOOR,
+    ['@'] = Tile.FLOOR, -- start position for player
+    ['%'] = Tile.FLOOR, -- start position for random spawn
 }
 
 function Builder.build(state, params)
