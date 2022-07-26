@@ -17,6 +17,7 @@ local char_to_tile = {
     ['>'] = Tile.STAIR_DN,
     ['+'] = Tile.DOOR,
     ['@'] = Tile.FLOOR,
+    ['%'] = Tile.FLOOR,
 }
 
 function Builder.build(state, params)
@@ -28,13 +29,17 @@ function Builder.build(state, params)
 
     local start = nil
 
+    local spawns = {}
+
     for y = 1, map_h do
         for x = 1, map_w do
             local i = (y - 1) * map_w + x
             local c = string.sub(prefab, i, i)        
             map.set(x, y, char_to_tile[c])
 
-            if c == '@' then
+            if c == '%' and params.spawn_table then
+                spawns[#spawns + 1] = { x = x, y = y, id = nil }
+            elseif c == '@' then
                 start = { x = x, y = y }
             end
         end
@@ -60,6 +65,7 @@ function Builder.build(state, params)
 
     state.start = start
     state.map = map
+    state.spawns = spawns
 end
 
 return Builder

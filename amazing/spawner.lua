@@ -64,6 +64,18 @@ local function spawnAreas(state, spawn_table)
     return spawnRegions(regions, spawn_table)
 end
 
+local function spawnCoords(state, spawn_table)
+    local spawns = {}
+
+    for _, spawn in ipairs(state.spawns) do
+        spawns[#spawns + 1] = { 
+            x = spawn.x, y = spawn.y, id = spawn_table.roll() 
+        }
+    end
+
+    return spawns
+end
+
 local function new(spawn_table)
     assert(spawn_table ~= nil, 'a spawn table is required')
     -- assert(getmetatable(spawn_table) == RandomTable, 
@@ -71,7 +83,9 @@ local function new(spawn_table)
     -- )
 
     local spawn = function(state)
-        if state.rooms then
+        if #state.spawns > 0 then
+            return spawnCoords(state, spawn_table)
+        elseif state.rooms then
             return spawnRooms(state, spawn_table)
         else
             return spawnAreas(state, spawn_table)
