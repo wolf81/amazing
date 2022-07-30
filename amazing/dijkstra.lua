@@ -10,8 +10,22 @@ local mmin, mhuge = math.min, math.huge
 
 --[[ DIJKSTRA ]]--
 
--- get neighbor tile positions based on x & y value
-local function getNeighbors(x, y)
+-- get both cardinal and ordinal neighbors
+local function getNeighborsCO(x, y)
+    return { 
+        { x - 1, y },
+        { x + 1, y },
+        { x, y - 1 },
+        { x, y + 1 },
+        { x - 1, y + 1 },
+        { x - 1, y - 1 },
+        { x + 1, y + 1 },
+        { x + 1, y - 1 },
+    }
+end
+
+-- get cardinal neighbors
+local function getNeighborsC(x, y)
     return { 
         { x - 1, y },
         { x + 1, y },
@@ -28,11 +42,13 @@ end
 
 -- return a Dijkstra map, based on the Dijkstra algorithm described here:
 -- https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
-local function map(tile_map, x, y, blocked)
+local function map(tile_map, x, y, blocked, incl_diagonal)
     local map_w, map_h = tile_map.size()
     local start = { x = x, y = y }    
     local d_map = Map(map_w, map_h, mhuge)
     local unvisited = PriorityQueue()
+
+    local getNeighbors = incl_diagonal and getNeighborsCO or getNeighborsC
 
     -- create an empty Dijkstra map, all tile distances are set to math.huge
     -- or nan if unreachable
