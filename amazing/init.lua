@@ -11,6 +11,7 @@ M.builder = require(PATH .. '.builder')
 M.Tile = require(PATH .. '.tile')
 M.Map = require(PATH .. '.map')
 M.RandomTable = require(PATH .. '.random_table')
+M.PriorityQueue = require(PATH .. '.pqueue')
 M.dijkstra = require(PATH .. '.dijkstra')
 
 return M
