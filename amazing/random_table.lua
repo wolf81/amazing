@@ -4,8 +4,12 @@ local RandomTable = {}
 RandomTable.__index = RandomTable
 
 local function sort(entries)
-    table.sort(entries, function(item1, item2)
-        return item1.weight < item2.weight
+    table.sort(entries, function(entry1, entry2)
+        if entry1.weight == entry2.weight then
+            return entry1.id > entry2.id
+        end
+
+        return entry1.weight > entry2.weight
     end)
 end
 
