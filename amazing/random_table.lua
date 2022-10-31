@@ -3,6 +3,12 @@ local lrandom = love.math.random
 local RandomTable = {}
 RandomTable.__index = RandomTable
 
+local function sort(entries)
+    table.sort(entries, function(item1, item2)
+        return item1.weight < item2.weight
+    end)
+end
+
 -- a random table contains a list of ids and weights, e.g.:
 --  { [1]        = 5, [2]          = 15, ... } 
 --    -or-
@@ -25,6 +31,8 @@ local function new(tbl)
         end
     end
 
+    sort(self.entries)
+
     local add = function(id, weight)
         for _, entry in ipairs(self.entries) do
             if entry.id == id then
@@ -34,6 +42,8 @@ local function new(tbl)
 
         self.entries[#self.entries + 1] = { id = id, weight = weight }
         self.total = self.total + weight
+
+        sort(self.entries)
     end
 
     local remove = function(id)
